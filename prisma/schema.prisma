@@ -15,6 +15,56 @@ model Example {
     id String @id @default(cuid())
 }
 
+model Action {
+    id        String    @id @default(cuid())
+    userId    String
+    messageId String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    likeAt    DateTime?
+    dislikeAt DateTime?
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    message   Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, messageId])
+}
+
+model Message {
+    id        String    @id @default(cuid())
+    userId    String
+    roomId    String
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    endedAt   DateTime?
+    data      String
+    user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    room      Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
+    actions   Action[]
+}
+
+model Member {
+    id        String   @id @default(cuid())
+    role      String
+    userId    String
+    roomId    String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+    @@unique([userId, roomId])
+}
+
+model Room {
+    id          String    @id @default(cuid())
+    name        String
+    description String
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime  @updatedAt
+    messages    Message[]
+    members     Member[]
+}
+
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
@@ -50,6 +100,9 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    actions       Action[]
+    messages      Message[]
+    members       Member[]
 }
 
 model VerificationToken {
