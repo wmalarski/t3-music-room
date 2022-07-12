@@ -1,6 +1,5 @@
-// src/pages/api/examples.ts
+import { prisma } from "@server/db/client";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../server/db/client";
 
 const examples = async (
   _req: NextApiRequest,
