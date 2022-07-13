@@ -1,6 +1,6 @@
 import { Login } from "@modules/Login/Login";
+import { withTranslations } from "@services/withTranslations";
 import type { GetServerSideProps, NextPage } from "next";
-import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 
 const SignIn: NextPage = () => {
@@ -16,13 +16,6 @@ const SignIn: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale || "en", ["common"])),
-      // Will be passed to the page component as props
-    },
-  };
-};
+export const getServerSideProps: GetServerSideProps = withTranslations();
 
 export default SignIn;
