@@ -2,6 +2,7 @@ import type { AppRouter } from "@server/router";
 import "@styles/globals.css";
 import { withTRPC } from "@trpc/next";
 import { SessionProvider } from "next-auth/react";
+import { appWithTranslation } from "next-i18next";
 import type { AppType } from "next/dist/shared/lib/utils";
 import superjson from "superjson";
 
@@ -51,4 +52,5 @@ export default withTRPC<AppRouter>({
    * @link https://trpc.io/docs/ssr
    */
   ssr: false,
-})(MyApp);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+})(appWithTranslation(MyApp as any));

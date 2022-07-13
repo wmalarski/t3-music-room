@@ -1,5 +1,6 @@
 import { trpc } from "@utils/trpc";
-import type { NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Head from "next/head";
 
 const Home: NextPage = () => {
@@ -46,6 +47,15 @@ const Home: NextPage = () => {
       </div>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async ({ locale }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale || "en", ["common"])),
+      // Will be passed to the page component as props
+    },
+  };
 };
 
 export default Home;

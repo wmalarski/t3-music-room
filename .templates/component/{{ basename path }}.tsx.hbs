@@ -1,0 +1,24 @@
+import { ReactElement } from "react";
+import { useTranslation } from "react-i18next";
+
+type Props = {
+  data?: string;
+};
+
+{{#if isDefaultExport}}
+const {{ basename path }} = ({ data }: Props): ReactElement => {
+{{else}}
+export const {{ basename path }} = ({ data }: Props): ReactElement => {
+{{/if}}
+  const { t } = useTranslation("common", { keyPrefix: "{{ basename path }}" });
+  return (
+    <div>
+      <p>{t("{{ basename path }}")}</p>
+      <div>{data}</div>
+    </div>
+  );
+};
+{{#if isDefaultExport}}
+
+export default {{ basename path }};
+{{/if}}
