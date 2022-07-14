@@ -1,10 +1,14 @@
+import { Logout } from "@modules/Logout/Logout";
+import { withAuthorization } from "@services/withAuthorization";
 import { withTranslations } from "@services/withTranslations";
 import { trpc } from "@utils/trpc";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 
 const Home: NextPage = () => {
-  const { data } = trpc.useQuery(["example.hello", { text: "from tRPC" }]);
+  const { data: secret } = trpc.useQuery(["auth.getSecretMessage"]);
+
+  const { data: session } = trpc.useQuery(["auth.getSession"]);
 
   return (
     <>
@@ -17,7 +21,7 @@ const Home: NextPage = () => {
         <h1>
           Create <span>T3</span> App
         </h1>
-
+        <Logout />
         <div>
           <h3>This stack uses:</h3>
           <ul>
@@ -41,14 +45,15 @@ const Home: NextPage = () => {
               </a>
             </li>
           </ul>
-
-          <div>{data ? <p>{data.greeting}</p> : <p>Loading..</p>}</div>
+          <pre>{JSON.stringify({ secret, session }, null, 2)}</pre>
         </div>
       </div>
     </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withTranslations();
+export const getServerSideProps: GetServerSideProps = withAuthorization(
+  withTranslations()
+);
 
 export default Home;

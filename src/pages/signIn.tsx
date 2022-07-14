@@ -1,4 +1,5 @@
 import { Login } from "@modules/Login/Login";
+import { withPublic } from "@services/withPublic";
 import { withTranslations } from "@services/withTranslations";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
@@ -16,6 +17,8 @@ const SignIn: NextPage = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = withTranslations();
+export const getServerSideProps: GetServerSideProps = withPublic(
+  withTranslations()
+);
 
 export default SignIn;

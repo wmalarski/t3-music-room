@@ -6,13 +6,14 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
-    url      = "file:./db.sqlite"
-    // url      = env("DATABASE_URL")
+    provider             = "mysql"
+    url                  = env("DATABASE_URL")
+    referentialIntegrity = "prisma"
 }
 
-model Example {
-    id String @id @default(cuid())
+generator js {
+    provider        = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
 }
 
 model Action {
@@ -27,6 +28,8 @@ model Action {
     message   Message   @relation(fields: [messageId], references: [id], onDelete: Cascade)
 
     @@unique([userId, messageId])
+    @@index([userId])
+    @@index([messageId])
 }
 
 model Message {
@@ -40,6 +43,9 @@ model Message {
     user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     room      Room      @relation(fields: [roomId], references: [id], onDelete: Cascade)
     actions   Action[]
+
+    @@index([userId])
+    @@index([roomId])
 }
 
 model Member {
@@ -53,6 +59,8 @@ model Member {
     room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
 
     @@unique([userId, roomId])
+    @@index([userId])
+    @@index([roomId])
 }
 
 model Room {
@@ -82,6 +90,7 @@ model Account {
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+    @@index([userId])
 }
 
 model Session {
@@ -90,6 +99,8 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 model User {

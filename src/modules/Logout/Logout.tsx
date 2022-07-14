@@ -10,5 +10,5 @@ export const Logout = (): ReactElement => {
     signOut();
   };
 
-  return <Button onClick={handleClick}>{t("google")}</Button>;
+  return <Button onClick={handleClick}>{t("button")}</Button>;
 };
