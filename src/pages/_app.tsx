@@ -1,3 +1,4 @@
+import { ChakraProvider } from "@chakra-ui/react";
 import type { AppRouter } from "@server/router";
 import "@styles/globals.css";
 import { withTRPC } from "@trpc/next";
@@ -11,9 +12,11 @@ const MyApp: AppType = ({
   pageProps: { session, ...pageProps },
 }) => {
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
+    <ChakraProvider>
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+      </SessionProvider>
+    </ChakraProvider>
   );
 };
 

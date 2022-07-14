@@ -1,5 +1,8 @@
 {
   "Login": {
-    "title": "Login"
+    "google": "Login using Google"
+  },
+  "Logout": {
+    "button": "Logout"
   }
 }
