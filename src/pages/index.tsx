@@ -6,8 +6,6 @@ import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 
 const Home: NextPage = () => {
-  const { data: secret } = trpc.useQuery(["auth.getSecretMessage"]);
-
   const { data: session } = trpc.useQuery(["auth.getSession"]);
 
   return (
@@ -45,7 +43,7 @@ const Home: NextPage = () => {
               </a>
             </li>
           </ul>
-          <pre>{JSON.stringify({ secret, session }, null, 2)}</pre>
+          <pre>{JSON.stringify({ session }, null, 2)}</pre>
         </div>
       </div>
     </>
