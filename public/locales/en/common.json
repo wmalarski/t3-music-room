@@ -4,5 +4,11 @@
   },
   "Logout": {
     "button": "Logout"
+  },
+  "CreateRoomModal": {
+    "button": "Create",
+    "header": "Create room",
+    "close": "Close",
+    "submit": "Submit"
   }
 }
