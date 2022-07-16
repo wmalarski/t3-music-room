@@ -22,7 +22,7 @@ export const Room = ({ roomId }: Props): ReactElement => {
         )}
       </Head>
       <Flex flexDirection="column">
-        {query.status === "success" && (
+        {query.status === "success" && query.data.role === "owner" && (
           <RoomSettingsModal room={query.data.room} />
         )}
         <pre>{JSON.stringify(query.data, null, 2)}</pre>

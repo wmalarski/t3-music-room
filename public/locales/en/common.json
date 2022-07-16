@@ -13,6 +13,9 @@
     "button": "Settings",
     "header": "Room Settings"
   },
+  "RoomDeleteForm": {
+    "button": "Delete"
+  },
   "RoomForm": {
     "name": "Name",
     "description": "Description",

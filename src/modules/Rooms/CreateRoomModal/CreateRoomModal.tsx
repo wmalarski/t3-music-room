@@ -46,7 +46,7 @@ export const CreateRoomModal = (): ReactElement => {
         <ModalContent>
           <ModalHeader>{t("header")}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody pb={5}>
             <RoomForm isLoading={mutation.isLoading} onSubmit={handleSubmit} />
           </ModalBody>
         </ModalContent>

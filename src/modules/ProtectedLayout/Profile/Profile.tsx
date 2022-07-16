@@ -48,7 +48,7 @@ export const Profile = (): ReactElement => {
         <ModalContent>
           <ModalHeader>{t("header")}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody pb={5}>
             {userQuery.status === "success" && (
               <ProfileForm
                 isLoading={mutation.isLoading}

@@ -83,12 +83,12 @@ export const roomsRouter = createProtectedRouter()
       id: z.string(),
     }),
     async resolve({ ctx, input }) {
-      const result = await ctx.prisma.room.findFirst({
+      const roomId = input.id;
+      const result = await ctx.prisma.member.findFirst({
         where: {
-          AND: [
-            { id: input.id },
-            { members: { some: { id: ctx.session?.user?.id } } },
-          ],
+          roomId,
+          role: "owner",
+          userId: ctx.session?.user?.id,
         },
       });
 
@@ -96,10 +96,12 @@ export const roomsRouter = createProtectedRouter()
         throw new TRPCError({ code: "UNAUTHORIZED" });
       }
 
-      return ctx.prisma.room.delete({
-        where: {
-          id: input.id,
-        },
-      });
+      await ctx.prisma.action.deleteMany({ where: { message: { roomId } } });
+
+      return ctx.prisma.$transaction([
+        ctx.prisma.room.delete({ where: { id: input.id } }),
+        ctx.prisma.member.deleteMany({ where: { roomId } }),
+        ctx.prisma.message.deleteMany({ where: { roomId } }),
+      ]);
     },
   });

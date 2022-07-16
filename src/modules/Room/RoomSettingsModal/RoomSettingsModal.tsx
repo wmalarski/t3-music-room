@@ -10,9 +10,12 @@ import {
 } from "@chakra-ui/react";
 import { RoomForm, RoomFormValue } from "@modules/RoomForm/RoomForm";
 import { Room } from "@prisma/client";
+import { paths } from "@utils/paths";
 import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { ReactElement } from "react";
+import { RoomDeleteForm } from "./RoomDeleteForm/RoomDeleteForm";
 
 type Props = {
   room: Room;
@@ -21,11 +24,13 @@ type Props = {
 export const RoomSettingsModal = ({ room }: Props): ReactElement => {
   const { t } = useTranslation("common", { keyPrefix: "RoomSettingsModal" });
 
+  const router = useRouter();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const client = trpc.useContext();
 
-  const mutation = trpc.useMutation(["rooms.updateRoom"], {
+  const updateMutation = trpc.useMutation(["rooms.updateRoom"], {
     onSuccess: () => {
       client.invalidateQueries(["rooms.selectMyMembers"]);
       client.invalidateQueries(["rooms.selectMemberByRoomId", { id: room.id }]);
@@ -33,12 +38,24 @@ export const RoomSettingsModal = ({ room }: Props): ReactElement => {
     },
   });
 
-  const handleSubmit = (input: RoomFormValue) => {
-    mutation.mutate({ ...input, id: room.id });
+  const deleteMutation = trpc.useMutation(["rooms.deleteRoom"], {
+    onSuccess: () => {
+      client.invalidateQueries(["rooms.selectMyMembers"]);
+      router.replace(paths.index());
+      onClose();
+    },
+  });
+
+  const handleUpdateSubmit = (input: RoomFormValue) => {
+    updateMutation.mutate({ ...input, id: room.id });
+  };
+
+  const handleDeleteSubmit = () => {
+    deleteMutation.mutate({ id: room.id });
   };
 
   const handleClose = () => {
-    if (mutation.isLoading) {
+    if (updateMutation.isLoading || deleteMutation.isLoading) {
       return;
     }
     onClose();
@@ -52,11 +69,15 @@ export const RoomSettingsModal = ({ room }: Props): ReactElement => {
         <ModalContent>
           <ModalHeader>{t("header")}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
+          <ModalBody display="flex" flexDirection="column" gap={5} pb={5}>
             <RoomForm
               initialValue={room}
-              isLoading={mutation.isLoading}
-              onSubmit={handleSubmit}
+              isLoading={updateMutation.isLoading}
+              onSubmit={handleUpdateSubmit}
+            />
+            <RoomDeleteForm
+              isLoading={deleteMutation.isLoading}
+              onSubmit={handleDeleteSubmit}
             />
           </ModalBody>
         </ModalContent>
