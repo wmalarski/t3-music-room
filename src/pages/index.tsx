@@ -1,13 +1,11 @@
 import { Logout } from "@modules/Logout/Logout";
+import { Rooms } from "@modules/Rooms/Rooms";
 import { withAuthorization } from "@services/withAuthorization";
 import { withTranslations } from "@services/withTranslations";
-import { trpc } from "@utils/trpc";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 
 const Home: NextPage = () => {
-  const { data: session } = trpc.useQuery(["auth.getSession"]);
-
   return (
     <>
       <Head>
@@ -20,31 +18,7 @@ const Home: NextPage = () => {
           Create <span>T3</span> App
         </h1>
         <Logout />
-        <div>
-          <h3>This stack uses:</h3>
-          <ul>
-            <li>
-              <a href="https://nextjs.org" rel="noreferrer" target="_blank">
-                Next.js
-              </a>
-            </li>
-            <li>
-              <a href="https://trpc.io" rel="noreferrer" target="_blank">
-                tRPC
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://typescriptlang.org"
-                rel="noreferrer"
-                target="_blank"
-              >
-                TypeScript
-              </a>
-            </li>
-          </ul>
-          <pre>{JSON.stringify({ session }, null, 2)}</pre>
-        </div>
+        <Rooms />
       </div>
     </>
   );

@@ -1,11 +1,12 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import * as trpc from "@trpc/server";
 import * as trpcNext from "@trpc/server/adapters/next";
 import { unstable_getServerSession as getServerSession } from "next-auth";
 
 import { authOptions as nextAuthOptions } from "@pages/api/auth/[...nextauth]";
+import { TRPCError } from "@trpc/server";
 import { prisma } from "../db/client";
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const createContext = async (
   opts?: trpcNext.CreateNextContextOptions
 ) => {
@@ -25,5 +26,15 @@ export const createContext = async (
 
 type Context = trpc.inferAsyncReturnType<typeof createContext>;
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const createRouter = () => trpc.router<Context>();
+export const createRouter = () => {
+  return trpc.router<Context>();
+};
+
+export const createProtectedRouter = () => {
+  return createRouter().middleware(({ ctx, next }) => {
+    if (!ctx.session || !ctx.session.user?.id) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+    return next();
+  });
+};

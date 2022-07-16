@@ -10,5 +10,10 @@
     "header": "Create room",
     "close": "Close",
     "submit": "Submit"
+  },
+  "RoomForm": {
+    "name": "Name",
+    "description": "Description",
+    "submit": "Submit"
   }
 }

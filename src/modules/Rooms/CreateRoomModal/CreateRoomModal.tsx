@@ -22,7 +22,7 @@ export const CreateRoomModal = (): ReactElement => {
 
   const mutation = trpc.useMutation(["rooms.createRoom"], {
     onSuccess: () => {
-      client.invalidateQueries(["rooms.selectMyRooms"]);
+      client.invalidateQueries(["rooms.selectMyMemberships"]);
       onClose();
     },
   });
@@ -31,10 +31,17 @@ export const CreateRoomModal = (): ReactElement => {
     mutation.mutate(input);
   };
 
+  const handleClose = () => {
+    if (mutation.isLoading) {
+      return;
+    }
+    onClose();
+  };
+
   return (
     <>
       <Button onClick={onOpen}>{t("button")}</Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>{t("header")}</ModalHeader>

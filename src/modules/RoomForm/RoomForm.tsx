@@ -39,7 +39,7 @@ export const RoomForm = ({
   };
 
   return (
-    <Flex flexDirection="column">
+    <Flex flexDirection="column" gap={5}>
       <FormControl>
         <FormLabel htmlFor="name">{t("name")}</FormLabel>
         <Input id="name" onChange={handleNameChange} value={value.name} />
@@ -53,7 +53,7 @@ export const RoomForm = ({
         />
       </FormControl>
       <Button isLoading={isLoading} onClick={handleClick}>
-        {t("button")}
+        {t("submit")}
       </Button>
     </Flex>
   );

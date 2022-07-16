@@ -1,27 +1,26 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createRouter } from "./context";
+import { createProtectedRouter } from "./context";
 
-export const roomsRouter = createRouter()
-  .middleware(({ ctx, next }) => {
-    if (!ctx.session) {
-      throw new TRPCError({ code: "UNAUTHORIZED" });
-    }
-    return next();
-  })
-  .query("selectMyRooms", {
+export const roomsRouter = createProtectedRouter()
+  .query("selectMyMemberships", {
     input: z.object({
       take: z.number().min(0).max(100),
       skip: z.number().min(0),
     }),
     resolve({ ctx, input }) {
-      return ctx.prisma.room.findMany({
-        skip: input.skip,
-        take: input.take,
-        where: {
-          members: { some: { id: ctx.session?.user?.id } },
-        },
-      });
+      const userId = ctx.session?.user?.id;
+      return ctx.prisma.$transaction([
+        ctx.prisma.member.findMany({
+          skip: input.skip,
+          take: input.take,
+          include: { room: true },
+          where: { userId },
+        }),
+        ctx.prisma.member.count({
+          where: { userId },
+        }),
+      ]);
     },
   })
   .mutation("createRoom", {
@@ -30,11 +29,7 @@ export const roomsRouter = createRouter()
       name: z.string().min(3),
     }),
     async resolve({ ctx, input }) {
-      const userId = ctx.session?.user?.id;
-
-      if (!userId) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
-      }
+      const userId = ctx.session?.user?.id || "";
 
       const room = await ctx.prisma.room.create({
         data: { description: input.description, name: input.name },
