@@ -21,7 +21,7 @@ export const Room = ({ roomId }: Props): ReactElement => {
         )}
       </Head>
       <Flex flexDirection="column">
-        <pre>{JSON.stringify(query.data)}</pre>
+        <pre>{JSON.stringify(query.data, null, 2)}</pre>
       </Flex>
     </>
   );

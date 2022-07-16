@@ -18,5 +18,8 @@
   },
   "Room": {
     "title": "{{name}}|Music Room"
+  },
+  "ProtectedLayout": {
+    "title": "Music Room"
   }
 }

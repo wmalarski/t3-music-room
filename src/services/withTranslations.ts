@@ -10,8 +10,8 @@ export const withTranslations = (
     return {
       ...current,
       props: {
-        ...(await serverSideTranslations(context.locale || "en", ["common"])),
         ...("props" in current ? current.props : {}),
+        ...(await serverSideTranslations(context.locale || "en", ["common"])),
       },
     };
   };
