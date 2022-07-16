@@ -4,12 +4,11 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
   useDisclosure,
 } from "@chakra-ui/react";
-import { RoomForm } from "@modules/RoomForm/RoomForm";
+import { RoomForm, RoomFormValue } from "@modules/RoomForm/RoomForm";
 import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
 import { ReactElement } from "react";
@@ -19,13 +18,18 @@ export const CreateRoomModal = (): ReactElement => {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const mutation = trpc.useMutation(["rooms.createRoom"]);
+  const client = trpc.useContext();
 
-  const [input, setInput] = useState({});
+  const mutation = trpc.useMutation(["rooms.createRoom"], {
+    onSuccess: () => {
+      client.invalidateQueries(["rooms.selectMyRooms"]);
+      onClose();
+    },
+  });
 
-  // const handleChange = (input: InferMutationInput<"rooms.createRoom">) => {
-  //   mutation.mutate(input);
-  // };
+  const handleSubmit = (input: RoomFormValue) => {
+    mutation.mutate(input);
+  };
 
   return (
     <>
@@ -36,13 +40,8 @@ export const CreateRoomModal = (): ReactElement => {
           <ModalHeader>{t("header")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <RoomForm onChange={setInput} />
+            <RoomForm isLoading={mutation.isLoading} onSubmit={handleSubmit} />
           </ModalBody>
-          <ModalFooter>
-            <Button isLoading={mutation.isLoading} variant="ghost">
-              {t("submit")}
-            </Button>
-          </ModalFooter>
         </ModalContent>
       </Modal>
     </>
