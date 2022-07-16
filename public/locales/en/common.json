@@ -21,5 +21,14 @@
   },
   "ProtectedLayout": {
     "title": "Music Room"
+  },
+  "Profile": {
+    "button": "Profile",
+    "header": "My profile"
+  },
+  "ProfileForm": {
+    "name": "Name",
+    "image": "Image",
+    "submit": "Submit"
   }
 }

@@ -5,6 +5,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { ReactElement, ReactNode } from "react";
 import { Logout } from "./Logout/Logout";
+import { Profile } from "./Profile/Profile";
 
 type Props = {
   children: ReactNode;
@@ -26,6 +27,7 @@ export const ProtectedLayout = ({ children }: Props): ReactElement => {
             <Heading>{t("title")}</Heading>
           </ChakraLink>
         </Link>
+        <Profile />
         <Logout />
         {children}
       </Container>
