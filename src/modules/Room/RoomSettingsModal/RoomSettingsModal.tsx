@@ -32,15 +32,18 @@ export const RoomSettingsModal = ({ room }: Props): ReactElement => {
 
   const updateMutation = trpc.useMutation(["rooms.updateRoom"], {
     onSuccess: () => {
-      client.invalidateQueries(["rooms.selectMyMembers"]);
-      client.invalidateQueries(["rooms.selectMemberByRoomId", { id: room.id }]);
+      client.invalidateQueries(["members.selectMyMembers"]);
+      client.invalidateQueries([
+        "members.selectMemberByRoomId",
+        { id: room.id },
+      ]);
       onClose();
     },
   });
 
   const deleteMutation = trpc.useMutation(["rooms.deleteRoom"], {
     onSuccess: () => {
-      client.invalidateQueries(["rooms.selectMyMembers"]);
+      client.invalidateQueries(["members.selectMyMembers"]);
       router.replace(paths.index());
       onClose();
     },

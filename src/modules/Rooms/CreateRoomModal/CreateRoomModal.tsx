@@ -22,7 +22,7 @@ export const CreateRoomModal = (): ReactElement => {
 
   const mutation = trpc.useMutation(["rooms.createRoom"], {
     onSuccess: () => {
-      client.invalidateQueries(["rooms.selectMyMembers"]);
+      client.invalidateQueries(["members.selectMyMembers"]);
       onClose();
     },
   });

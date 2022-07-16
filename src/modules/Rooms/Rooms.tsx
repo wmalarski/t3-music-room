@@ -9,12 +9,12 @@ export const Rooms = (): ReactElement => {
   const client = trpc.useContext();
 
   const query = trpc.useQuery(
-    ["rooms.selectMyMembers", { skip: 0, take: 100 }],
+    ["members.selectMyMembers", { skip: 0, take: 100 }],
     {
       onSuccess: ([data]) => {
         data.forEach((member) => {
           client.setQueryData(
-            ["rooms.selectMemberByRoomId", { id: member.room.id }],
+            ["members.selectMemberByRoomId", { id: member.room.id }],
             member
           );
         });
