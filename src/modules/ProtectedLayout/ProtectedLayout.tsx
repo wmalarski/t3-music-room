@@ -1,10 +1,10 @@
 import { Container, Heading, Link as ChakraLink } from "@chakra-ui/react";
-import { Logout } from "@modules/Logout/Logout";
 import { paths } from "@utils/paths";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import Link from "next/link";
 import { ReactElement, ReactNode } from "react";
+import { Logout } from "./Logout/Logout";
 
 type Props = {
   children: ReactNode;
