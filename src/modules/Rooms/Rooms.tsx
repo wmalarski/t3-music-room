@@ -6,10 +6,21 @@ import { ReactElement } from "react";
 import { CreateRoomModal } from "./CreateRoomModal/CreateRoomModal";
 
 export const Rooms = (): ReactElement => {
-  const query = trpc.useQuery([
-    "rooms.selectMyMemberships",
-    { skip: 0, take: 100 },
-  ]);
+  const client = trpc.useContext();
+
+  const query = trpc.useQuery(
+    ["rooms.selectMyMembers", { skip: 0, take: 100 }],
+    {
+      onSuccess: ([data]) => {
+        data.forEach((member) => {
+          client.setQueryData(
+            ["rooms.selectMemberByRoomId", { id: member.room.id }],
+            member
+          );
+        });
+      },
+    }
+  );
 
   return (
     <Flex flexDirection="column">

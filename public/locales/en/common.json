@@ -15,5 +15,8 @@
     "name": "Name",
     "description": "Description",
     "submit": "Submit"
+  },
+  "Room": {
+    "title": "{{name}}|Music Room"
   }
 }

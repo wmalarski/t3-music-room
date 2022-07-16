@@ -3,7 +3,7 @@ import { z } from "zod";
 import { createProtectedRouter } from "./context";
 
 export const roomsRouter = createProtectedRouter()
-  .query("selectMyMemberships", {
+  .query("selectMyMembers", {
     input: z.object({
       take: z.number().min(0).max(100),
       skip: z.number().min(0),
@@ -21,6 +21,18 @@ export const roomsRouter = createProtectedRouter()
           where: { userId },
         }),
       ]);
+    },
+  })
+  .query("selectMemberByRoomId", {
+    input: z.object({
+      id: z.string(),
+    }),
+    resolve({ ctx, input }) {
+      const userId = ctx.session?.user?.id;
+      return ctx.prisma.member.findFirstOrThrow({
+        include: { room: true },
+        where: { userId, roomId: input.id },
+      });
     },
   })
   .mutation("createRoom", {
