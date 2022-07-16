@@ -35,7 +35,7 @@ export const RoomSettingsModal = ({ room }: Props): ReactElement => {
       client.invalidateQueries(["members.selectMyMembers"]);
       client.invalidateQueries([
         "members.selectMemberByRoomId",
-        { id: room.id },
+        { roomId: room.id },
       ]);
       onClose();
     },

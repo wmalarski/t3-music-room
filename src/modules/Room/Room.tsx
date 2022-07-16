@@ -3,6 +3,7 @@ import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { ReactElement } from "react";
+import { RoomMembersModal } from "./RoomMembersModal/RoomMembersModal";
 import { RoomSettingsModal } from "./RoomSettingsModal/RoomSettingsModal";
 
 type Props = {
@@ -12,7 +13,7 @@ type Props = {
 export const Room = ({ roomId }: Props): ReactElement => {
   const { t } = useTranslation("common", { keyPrefix: "Room" });
 
-  const query = trpc.useQuery(["members.selectMemberByRoomId", { id: roomId }]);
+  const query = trpc.useQuery(["members.selectMemberByRoomId", { roomId }]);
 
   return (
     <>
@@ -21,12 +22,14 @@ export const Room = ({ roomId }: Props): ReactElement => {
           <title>{t("title", { name: query.data.room.name })}</title>
         )}
       </Head>
-      <Flex flexDirection="column">
-        {query.status === "success" && query.data.role === "owner" && (
-          <RoomSettingsModal room={query.data.room} />
-        )}
-        <pre>{JSON.stringify(query.data, null, 2)}</pre>
-      </Flex>
+      {query.status === "success" && (
+        <Flex flexDirection="column">
+          <RoomMembersModal room={query.data.room} />
+          {query.data.role === "owner" && (
+            <RoomSettingsModal room={query.data.room} />
+          )}
+        </Flex>
+      )}
     </>
   );
 };

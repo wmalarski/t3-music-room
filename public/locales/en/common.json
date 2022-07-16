@@ -13,6 +13,10 @@
     "button": "Settings",
     "header": "Room Settings"
   },
+  "RoomMembersModal": {
+    "button": "Members",
+    "header": "Room Members"
+  },
   "RoomDeleteForm": {
     "button": "Delete"
   },

@@ -1,4 +1,3 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { createProtectedRouter } from "./context";
 
@@ -28,17 +27,13 @@ export const roomsRouter = createProtectedRouter()
       name: z.string().min(3),
     }),
     async resolve({ ctx, input }) {
-      const result = await ctx.prisma.member.findFirst({
+      await ctx.prisma.member.findFirstOrThrow({
         where: {
           roomId: input.id,
           role: "owner",
           userId: ctx.session?.user?.id,
         },
       });
-
-      if (!result) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
-      }
 
       return ctx.prisma.room.update({
         data: { description: input.description, name: input.name },
@@ -52,17 +47,13 @@ export const roomsRouter = createProtectedRouter()
     }),
     async resolve({ ctx, input }) {
       const roomId = input.id;
-      const result = await ctx.prisma.member.findFirst({
+      await ctx.prisma.member.findFirstOrThrow({
         where: {
           roomId,
           role: "owner",
           userId: ctx.session?.user?.id,
         },
       });
-
-      if (!result) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
-      }
 
       await ctx.prisma.action.deleteMany({ where: { message: { roomId } } });
 

@@ -24,13 +24,35 @@ export const membersRouter = createProtectedRouter()
   })
   .query("selectMemberByRoomId", {
     input: z.object({
-      id: z.string(),
+      roomId: z.string(),
     }),
     resolve({ ctx, input }) {
       const userId = ctx.session?.user?.id;
       return ctx.prisma.member.findFirstOrThrow({
         include: { room: true },
-        where: { userId, roomId: input.id },
+        where: { userId, roomId: input.roomId },
+      });
+    },
+  })
+  .query("selectRoomMembers", {
+    input: z.object({
+      roomId: z.string(),
+      take: z.number().min(0).max(100),
+      skip: z.number().min(0),
+    }),
+    async resolve({ ctx, input }) {
+      await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          roomId: input.roomId,
+          userId: ctx.session?.user?.id,
+        },
+      });
+
+      return ctx.prisma.member.findMany({
+        skip: input.skip,
+        take: input.take,
+        where: { roomId: input.roomId },
+        include: { user: true },
       });
     },
   });

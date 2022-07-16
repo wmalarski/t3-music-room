@@ -14,7 +14,7 @@ export const Rooms = (): ReactElement => {
       onSuccess: ([data]) => {
         data.forEach((member) => {
           client.setQueryData(
-            ["members.selectMemberByRoomId", { id: member.room.id }],
+            ["members.selectMemberByRoomId", { roomId: member.room.id }],
             member
           );
         });
