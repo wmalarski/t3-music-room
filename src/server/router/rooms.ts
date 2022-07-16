@@ -60,12 +60,11 @@ export const roomsRouter = createProtectedRouter()
       name: z.string().min(3),
     }),
     async resolve({ ctx, input }) {
-      const result = await ctx.prisma.room.findFirst({
+      const result = await ctx.prisma.member.findFirst({
         where: {
-          AND: [
-            { id: input.id },
-            { members: { some: { id: ctx.session?.user?.id } } },
-          ],
+          roomId: input.id,
+          role: "owner",
+          userId: ctx.session?.user?.id,
         },
       });
 
@@ -74,13 +73,8 @@ export const roomsRouter = createProtectedRouter()
       }
 
       return ctx.prisma.room.update({
-        data: {
-          description: input.description,
-          name: input.name,
-        },
-        where: {
-          id: input.id,
-        },
+        data: { description: input.description, name: input.name },
+        where: { id: input.id },
       });
     },
   })

@@ -3,6 +3,7 @@ import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { ReactElement } from "react";
+import { RoomSettingsModal } from "./RoomSettingsModal/RoomSettingsModal";
 
 type Props = {
   roomId: string;
@@ -21,6 +22,9 @@ export const Room = ({ roomId }: Props): ReactElement => {
         )}
       </Head>
       <Flex flexDirection="column">
+        {query.status === "success" && (
+          <RoomSettingsModal room={query.data.room} />
+        )}
         <pre>{JSON.stringify(query.data, null, 2)}</pre>
       </Flex>
     </>

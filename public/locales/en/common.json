@@ -7,9 +7,11 @@
   },
   "CreateRoomModal": {
     "button": "Create",
-    "header": "Create room",
-    "close": "Close",
-    "submit": "Submit"
+    "header": "Create Room"
+  },
+  "RoomSettingsModal": {
+    "button": "Settings",
+    "header": "Room Settings"
   },
   "RoomForm": {
     "name": "Name",

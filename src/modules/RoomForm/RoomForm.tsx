@@ -1,29 +1,28 @@
 import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
-import { InferMutationInput } from "@server/types";
 import { useTranslation } from "next-i18next";
 import { ChangeEvent, ReactElement, useState } from "react";
 
-export type RoomFormValue =
-  | InferMutationInput<"rooms.createRoom">
-  | InferMutationInput<"rooms.updateRoom">;
+export type RoomFormValue = {
+  name: string;
+  description: string;
+};
 
 type Props = {
-  id?: string;
   isLoading: boolean;
+  initialValue?: RoomFormValue;
   onSubmit: (input: RoomFormValue) => void;
 };
 
 export const RoomForm = ({
-  id,
-  onSubmit: onSubmit,
+  initialValue,
+  onSubmit,
   isLoading,
 }: Props): ReactElement => {
   const { t } = useTranslation("common", { keyPrefix: "RoomForm" });
 
   const [value, setValue] = useState<RoomFormValue>({
-    description: "",
-    name: "",
-    id,
+    description: initialValue?.description || "",
+    name: initialValue?.name || "",
   });
 
   const handleClick = () => {
