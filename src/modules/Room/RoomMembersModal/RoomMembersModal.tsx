@@ -11,6 +11,7 @@ import {
 import { Room } from "@prisma/client";
 import { useTranslation } from "next-i18next";
 import { ReactElement } from "react";
+import { CreateMemberForm } from "./CreateMemberForm/CreateMemberForm";
 import { MembersList } from "./MembersList/MembersList";
 
 type Props = {
@@ -30,7 +31,8 @@ export const RoomMembersModal = ({ room }: Props): ReactElement => {
         <ModalContent>
           <ModalHeader>{t("header")}</ModalHeader>
           <ModalCloseButton />
-          <ModalBody pb={5}>
+          <ModalBody display="flex" flexDirection="column" gap={5} pb={5}>
+            <CreateMemberForm room={room} />
             <MembersList room={room} />
           </ModalBody>
         </ModalContent>

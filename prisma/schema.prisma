@@ -71,6 +71,21 @@ model Room {
     updatedAt   DateTime  @updatedAt
     messages    Message[]
     members     Member[]
+    invites     Invite[]
+}
+
+model Invite {
+    id        String   @id @default(cuid())
+    roomId    String
+    key       String   @default(cuid())
+    email     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
+
+    @@unique([email, roomId])
+    @@index([roomId])
+    @@index([email])
 }
 
 // Necessary for Next auth

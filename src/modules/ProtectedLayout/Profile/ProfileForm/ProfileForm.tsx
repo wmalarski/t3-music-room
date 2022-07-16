@@ -19,8 +19,8 @@ export const ProfileForm = ({
   const { t } = useTranslation("common", { keyPrefix: "ProfileForm" });
 
   const [value, setValue] = useState<ProfileFormValue>({
-    image: user.image,
-    name: user.name,
+    image: user.image || undefined,
+    name: user.name || undefined,
   });
 
   const handleClick = () => {
