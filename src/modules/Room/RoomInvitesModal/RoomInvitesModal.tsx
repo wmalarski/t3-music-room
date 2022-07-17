@@ -11,14 +11,14 @@ import {
 import { Room } from "@prisma/client";
 import { useTranslation } from "next-i18next";
 import { ReactElement } from "react";
-import { MembersList } from "./MembersList/MembersList";
+import { CreateInviteForm } from "./CreateInviteForm/CreateInviteForm";
 
 type Props = {
   room: Room;
 };
 
-export const RoomMembersModal = ({ room }: Props): ReactElement => {
-  const { t } = useTranslation("common", { keyPrefix: "RoomMembersModal" });
+export const RoomInvitesModal = ({ room }: Props): ReactElement => {
+  const { t } = useTranslation("common", { keyPrefix: "RoomInvitesModal" });
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -31,7 +31,7 @@ export const RoomMembersModal = ({ room }: Props): ReactElement => {
           <ModalHeader>{t("header")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody display="flex" flexDirection="column" gap={5} pb={5}>
-            <MembersList room={room} />
+            <CreateInviteForm room={room} />
           </ModalBody>
         </ModalContent>
       </Modal>

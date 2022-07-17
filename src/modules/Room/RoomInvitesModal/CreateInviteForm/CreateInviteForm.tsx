@@ -13,7 +13,7 @@ type Props = {
   room: Room;
 };
 
-export const CreateMemberForm = ({ room }: Props): ReactElement => {
+export const CreateInviteForm = ({ room }: Props): ReactElement => {
   const { t } = useTranslation("common", { keyPrefix: "RoomForm" });
 
   const [email, setEmail] = useState("");

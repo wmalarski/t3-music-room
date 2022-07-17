@@ -17,6 +17,10 @@
     "button": "Members",
     "header": "Room Members"
   },
+  "RoomInvitesModal": {
+    "button": "Invites",
+    "header": "Room Invites"
+  },
   "RoomDeleteForm": {
     "button": "Delete"
   },
