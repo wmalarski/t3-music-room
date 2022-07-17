@@ -1,9 +1,9 @@
 import { t } from "@server/trpc";
 import { z } from "zod";
-import { protectedProcedure, roomProtectedProcedure } from "./auth";
+import { protectedProcedure } from "./auth";
 
 export const invitesRouter = t.router({
-  selectInvites: roomProtectedProcedure
+  selectInvites: protectedProcedure
     .input(
       z.object({
         roomId: z.string(),
@@ -11,7 +11,14 @@ export const invitesRouter = t.router({
         skip: z.number().min(0),
       })
     )
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
+      await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          roomId: input.roomId,
+          userId: ctx.session.user.id,
+        },
+      });
+
       return ctx.prisma.$transaction([
         ctx.prisma.member.findMany({
           skip: input.skip,
@@ -30,14 +37,20 @@ export const invitesRouter = t.router({
         }),
       ]);
     }),
-  createInvite: roomProtectedProcedure
+  createInvite: protectedProcedure
     .input(
       z.object({
         roomId: z.string(),
         email: z.string(),
       })
     )
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
+      await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          roomId: input.roomId,
+          userId: ctx.session.user.id,
+        },
+      });
       return ctx.prisma.invite.create({
         data: {
           email: input.email,

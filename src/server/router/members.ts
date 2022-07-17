@@ -1,6 +1,6 @@
 import { t } from "@server/trpc";
 import { z } from "zod";
-import { protectedProcedure, roomProtectedProcedure } from "./auth";
+import { protectedProcedure } from "./auth";
 
 export const membersRouter = t.router({
   selectMyMembers: protectedProcedure
@@ -46,7 +46,7 @@ export const membersRouter = t.router({
         },
       });
     }),
-  selectRoomMembers: roomProtectedProcedure
+  selectRoomMembers: protectedProcedure
     .input(
       z.object({
         roomId: z.string(),
@@ -54,7 +54,13 @@ export const membersRouter = t.router({
         skip: z.number().min(0),
       })
     )
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
+      await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          roomId: input.roomId,
+          userId: ctx.session.user.id,
+        },
+      });
       return ctx.prisma.member.findMany({
         skip: input.skip,
         take: input.take,
