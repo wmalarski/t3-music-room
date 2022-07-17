@@ -1,58 +1,69 @@
+import { t } from "@server/trpc";
 import { z } from "zod";
-import { createProtectedRouter } from "./context";
+import { protectedProcedure, roomProtectedProcedure } from "./auth";
 
-export const membersRouter = createProtectedRouter()
-  .query("selectMyMembers", {
-    input: z.object({
-      take: z.number().min(0).max(100),
-      skip: z.number().min(0),
-    }),
-    resolve({ ctx, input }) {
-      const userId = ctx.session?.user?.id;
+export const membersRouter = t.router({
+  selectMyMembers: protectedProcedure
+    .input(
+      z.object({
+        take: z.number().min(0).max(100),
+        skip: z.number().min(0),
+      })
+    )
+    .query(({ ctx, input }) => {
       return ctx.prisma.$transaction([
         ctx.prisma.member.findMany({
           skip: input.skip,
           take: input.take,
-          include: { room: true },
-          where: { userId },
+          include: {
+            room: true,
+          },
+          where: {
+            userId: ctx.session.user.id,
+          },
         }),
         ctx.prisma.member.count({
-          where: { userId },
+          where: {
+            userId: ctx.session.user.id,
+          },
         }),
       ]);
-    },
-  })
-  .query("selectMemberByRoomId", {
-    input: z.object({
-      roomId: z.string(),
     }),
-    resolve({ ctx, input }) {
-      const userId = ctx.session?.user?.id;
+  selectMemberByRoomId: protectedProcedure
+    .input(
+      z.object({
+        roomId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
       return ctx.prisma.member.findFirstOrThrow({
-        include: { room: true },
-        where: { userId, roomId: input.roomId },
-      });
-    },
-  })
-  .query("selectRoomMembers", {
-    input: z.object({
-      roomId: z.string(),
-      take: z.number().min(0).max(100),
-      skip: z.number().min(0),
-    }),
-    async resolve({ ctx, input }) {
-      await ctx.prisma.member.findFirstOrThrow({
+        include: {
+          room: true,
+        },
         where: {
+          userId: ctx.session.user.id,
           roomId: input.roomId,
-          userId: ctx.session?.user?.id,
         },
       });
-
+    }),
+  selectRoomMembers: roomProtectedProcedure
+    .input(
+      z.object({
+        roomId: z.string(),
+        take: z.number().min(0).max(100),
+        skip: z.number().min(0),
+      })
+    )
+    .query(({ ctx, input }) => {
       return ctx.prisma.member.findMany({
         skip: input.skip,
         take: input.take,
-        where: { roomId: input.roomId },
-        include: { user: true },
+        where: {
+          roomId: input.roomId,
+        },
+        include: {
+          user: true,
+        },
       });
-    },
-  });
+    }),
+});

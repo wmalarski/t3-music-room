@@ -1,119 +1,127 @@
-import { TRPCError } from "@trpc/server";
+import { t } from "@server/trpc";
 import { z } from "zod";
-import { createProtectedRouter } from "./context";
+import { protectedProcedure, roomProtectedProcedure } from "./auth";
 
-export const invitesRouter = createProtectedRouter()
-  .query("selectInvites", {
-    input: z.object({
-      roomId: z.string(),
-      take: z.number().min(0).max(100),
-      skip: z.number().min(0),
-    }),
-    async resolve({ ctx, input }) {
-      await ctx.prisma.member.findFirstOrThrow({
-        where: {
-          roomId: input.roomId,
-          userId: ctx.session?.user?.id,
-        },
-      });
-
+export const invitesRouter = t.router({
+  selectInvites: roomProtectedProcedure
+    .input(
+      z.object({
+        roomId: z.string(),
+        take: z.number().min(0).max(100),
+        skip: z.number().min(0),
+      })
+    )
+    .query(({ ctx, input }) => {
       return ctx.prisma.$transaction([
         ctx.prisma.member.findMany({
           skip: input.skip,
           take: input.take,
-          include: { user: true },
-          where: { roomId: input.roomId },
+          include: {
+            user: true,
+          },
+          where: {
+            roomId: input.roomId,
+          },
         }),
         ctx.prisma.member.count({
-          where: { roomId: input.roomId },
+          where: {
+            roomId: input.roomId,
+          },
         }),
       ]);
-    },
-  })
-  .mutation("createInvite", {
-    input: z.object({
-      roomId: z.string(),
-      email: z.string(),
     }),
-    async resolve({ ctx, input }) {
-      await ctx.prisma.member.findFirstOrThrow({
-        where: {
+  createInvite: roomProtectedProcedure
+    .input(
+      z.object({
+        roomId: z.string(),
+        email: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.invite.create({
+        data: {
+          email: input.email,
           roomId: input.roomId,
-          userId: ctx.session?.user?.id,
+        },
+      });
+    }),
+  acceptInvite: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const invite = await ctx.prisma.invite.findFirstOrThrow({
+        where: {
+          id: input.id,
+          email: ctx.session.user.email,
         },
       });
 
-      return ctx.prisma.invite.create({
-        data: { email: input.email, roomId: input.roomId },
-      });
-    },
-  })
-  .mutation("acceptInvite", {
-    input: z.object({
-      id: z.string(),
-    }),
-    async resolve({ ctx, input }) {
-      const email = ctx.session?.user?.email;
-      const userId = ctx.session?.user?.id;
-
-      if (!email || !userId) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
-      }
-
-      const invite = await ctx.prisma.invite.findFirstOrThrow({
-        where: { id: input.id, email },
-      });
-
       const member = await ctx.prisma.member.create({
-        data: { role: "user", roomId: invite.roomId, userId },
-        include: { room: true },
+        data: {
+          role: "user",
+          roomId: invite.roomId,
+          userId: ctx.session.user.id,
+        },
+        include: {
+          room: true,
+        },
       });
 
       await ctx.prisma.invite.delete({
-        where: { id: input.id },
+        where: {
+          id: input.id,
+        },
       });
 
       return member;
-    },
-  })
-  .mutation("rejectInvite", {
-    input: z.object({
-      id: z.string(),
     }),
-    async resolve({ ctx, input }) {
-      const email = ctx.session?.user?.email;
-
-      if (!email) {
-        throw new TRPCError({ code: "UNAUTHORIZED" });
-      }
-
+  rejectInvite: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
       await ctx.prisma.invite.findFirstOrThrow({
-        where: { id: input.id, email },
+        where: {
+          id: input.id,
+          email: ctx.session.user.email,
+        },
       });
 
       return ctx.prisma.invite.delete({
-        where: { id: input.id },
+        where: {
+          id: input.id,
+        },
       });
-    },
-  })
-  .mutation("deleteInvite", {
-    input: z.object({
-      id: z.string(),
     }),
-    async resolve({ ctx, input }) {
+  deleteInvite: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
       const invite = await ctx.prisma.invite.findFirstOrThrow({
-        where: { id: input.id },
+        where: {
+          id: input.id,
+        },
       });
 
       await ctx.prisma.member.findFirstOrThrow({
         where: {
           roomId: invite.roomId,
-          userId: ctx.session?.user?.id,
+          userId: ctx.session.user.id,
         },
       });
 
       return ctx.prisma.invite.delete({
-        where: { id: input.id },
+        where: {
+          id: input.id,
+        },
       });
-    },
-  });
+    }),
+});

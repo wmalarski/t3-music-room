@@ -966,32 +966,34 @@
   dependencies:
     tslib "^2.4.0"
 
-"@trpc/client@^9.25.3":
-  version "9.25.3"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-9.25.3.tgz#7a0d1a28b98c976479004c34019db7ac17f274e7"
-  integrity sha512-4R+IK3cCDjoOTwHDyu+uN0bF3mYQI34i6aDNU3D/dJJxcA8PX5f8yb++nnR4RT6oTnu3yiR3PFC4KslvBtyi9w==
+"@trpc/client@^10.0.0-alpha.38":
+  version "10.0.0-alpha.38"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-alpha.38.tgz#c9b351e16ebe520328b3d2ecc456cbd9375ea520"
+  integrity sha512-4Mi2qoHlhhAO+nxPQwx9WU37BTMDzjLddlTFWvSJJYrkOkNt79kpLNFjuKBmBAla8M8ItO9dhaW7b9cA/AI0Cw==
   dependencies:
     "@babel/runtime" "^7.9.0"
 
-"@trpc/next@^9.25.3":
-  version "9.25.3"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-9.25.3.tgz#a8703f328074f560574b683483456f3156634e3b"
-  integrity sha512-eAhPIinDTUiEgiPjChNIcqaPgwn+rJ8HX374fwff/tZXg5OVr3dA7rur2nYyQUWO8LvdiLfUAbTxgtoEB8SPKw==
+"@trpc/next@^10.0.0-alpha.38":
+  version "10.0.0-alpha.38"
+  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-alpha.38.tgz#b741f5e309b347aa41a204523701c99abedc39c7"
+  integrity sha512-zTQ5wKAt6tvbYX7wQgSpAG04hejvZmUHCDyNPWDVj+cFr8EgAqlnFT00/FMtrZQrVu0Ib9nuboRKSbQJddvxEA==
   dependencies:
     "@babel/runtime" "^7.9.0"
     react-ssr-prepass "^1.5.0"
 
-"@trpc/react@^9.25.3":
-  version "9.25.3"
-  resolved "https://registry.yarnpkg.com/@trpc/react/-/react-9.25.3.tgz#4da4ba8e3363199d9b310481aac279bcdf187adc"
-  integrity sha512-/StrJS7hKPPn88YaXX+qRU50MeLZxBmPC5BLVyhRtwmbzK25Q0MTzBgQLrjoCpJ/HgXYZEbB5ddiw8f+/WnqIA==
+"@trpc/react@^10.0.0-alpha.38":
+  version "10.0.0-alpha.38"
+  resolved "https://registry.yarnpkg.com/@trpc/react/-/react-10.0.0-alpha.38.tgz#db0d9e1bfe5cb61072c1de070a06be1e3b104e94"
+  integrity sha512-tuuY7I5hl3rI+he8rjLl9UEeBMEgZm53w5uk+0RuQiEvfcdX10YO0534aCFn4pd7IeHncW0s8jQqNCepA+3V4g==
   dependencies:
     "@babel/runtime" "^7.9.0"
 
-"@trpc/server@^9.25.3":
-  version "9.25.3"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-9.25.3.tgz#a11ef35f872216a84e2c9c76c56d7e95e703c477"
-  integrity sha512-1LEURCmSGpxx8/0ZtzMpd0hiSB4xGNKJ9DKq6sbPk+bzdACjH9Ujdwca4P6ylxa8HdMel/effwjlCG0Tfx06Lg==
+"@trpc/server@^10.0.0-alpha.38":
+  version "10.0.0-alpha.38"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.0.0-alpha.38.tgz#c8a5afc79633d4f0524d720f6953611b09e5c278"
+  integrity sha512-/XoI+HtlIs/RgRm2vRBH385afou67P1x3Pldno2EIiiWzxsS+kkyIaC6SghiPLyqneHj5kvtvHX3ZWGmQOVJ/A==
+  dependencies:
+    tslib "^2.1.0"
 
 "@types/fined@*":
   version "1.1.3"
