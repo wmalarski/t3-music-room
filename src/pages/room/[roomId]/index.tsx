@@ -1,8 +1,8 @@
 import { ProtectedLayout } from "@modules/ProtectedLayout/ProtectedLayout";
 import { Room } from "@modules/Room/Room";
-import { withAuthorization } from "@services/withAuthorization";
-import { withTranslations } from "@services/withTranslations";
-import { withZodQuery } from "@services/withZodQuery";
+import { withAuthorization } from "@utils/wrappers/withAuthorization";
+import { withTranslations } from "@utils/wrappers/withTranslations";
+import { withZodQuery } from "@utils/wrappers/withZodQuery";
 import type { GetServerSideProps, NextPage } from "next";
 import { z } from "zod";
 

@@ -1,6 +1,6 @@
 import { Login } from "@modules/Login/Login";
-import { withPublic } from "@services/withPublic";
-import { withTranslations } from "@services/withTranslations";
+import { withPublic } from "@utils/wrappers/withPublic";
+import { withTranslations } from "@utils/wrappers/withTranslations";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
 
