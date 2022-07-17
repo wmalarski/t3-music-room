@@ -3,6 +3,33 @@ import { z } from "zod";
 import { createProtectedRouter } from "./context";
 
 export const invitesRouter = createProtectedRouter()
+  .query("selectInvites", {
+    input: z.object({
+      roomId: z.string(),
+      take: z.number().min(0).max(100),
+      skip: z.number().min(0),
+    }),
+    async resolve({ ctx, input }) {
+      await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          roomId: input.roomId,
+          userId: ctx.session?.user?.id,
+        },
+      });
+
+      return ctx.prisma.$transaction([
+        ctx.prisma.member.findMany({
+          skip: input.skip,
+          take: input.take,
+          include: { user: true },
+          where: { roomId: input.roomId },
+        }),
+        ctx.prisma.member.count({
+          where: { roomId: input.roomId },
+        }),
+      ]);
+    },
+  })
   .mutation("createInvite", {
     input: z.object({
       roomId: z.string(),
