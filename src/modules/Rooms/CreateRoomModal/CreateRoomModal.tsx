@@ -20,7 +20,7 @@ export const CreateRoomModal = (): ReactElement => {
 
   const client = trpc.useContext();
 
-  const mutation = trpc.useMutation(["rooms.createRoom"], {
+  const mutation = trpc.proxy.rooms.createRoom.useMutation({
     onSuccess: () => {
       client.invalidateQueries(["members.selectMyMembers"]);
       onClose();

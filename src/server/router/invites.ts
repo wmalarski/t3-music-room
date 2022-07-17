@@ -37,7 +37,7 @@ export const invitesRouter = t.router({
         email: z.string(),
       })
     )
-    .query(({ ctx, input }) => {
+    .mutation(({ ctx, input }) => {
       return ctx.prisma.invite.create({
         data: {
           email: input.email,

@@ -8,10 +8,11 @@ type Props = {
 };
 
 export const MembersList = ({ room }: Props): ReactElement => {
-  const query = trpc.useQuery([
-    "members.selectRoomMembers",
-    { roomId: room.id, skip: 0, take: 100 },
-  ]);
+  const query = trpc.proxy.members.selectRoomMembers.useQuery({
+    roomId: room.id,
+    skip: 0,
+    take: 100,
+  });
 
   return (
     <VStack divider={<StackDivider />}>

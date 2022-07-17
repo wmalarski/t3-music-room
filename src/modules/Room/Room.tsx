@@ -13,7 +13,7 @@ type Props = {
 export const Room = ({ roomId }: Props): ReactElement => {
   const { t } = useTranslation("common", { keyPrefix: "Room" });
 
-  const query = trpc.useQuery(["members.selectMemberByRoomId", { roomId }]);
+  const query = trpc.proxy.members.selectMemberByRoomId.useQuery({ roomId });
 
   return (
     <>

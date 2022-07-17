@@ -8,8 +8,8 @@ import { CreateRoomModal } from "./CreateRoomModal/CreateRoomModal";
 export const Rooms = (): ReactElement => {
   const client = trpc.useContext();
 
-  const query = trpc.useQuery(
-    ["members.selectMyMembers", { skip: 0, take: 100 }],
+  const query = trpc.proxy.members.selectMyMembers.useQuery(
+    { skip: 0, take: 100 },
     {
       onSuccess: ([data]) => {
         data.forEach((member) => {

@@ -20,9 +20,9 @@ export const Profile = (): ReactElement => {
 
   const client = trpc.useContext();
 
-  const userQuery = trpc.useQuery(["user.selectUser"]);
+  const userQuery = trpc.proxy.user.selectUser.useQuery();
 
-  const mutation = trpc.useMutation(["user.updateUser"], {
+  const mutation = trpc.proxy.user.updateUser.useMutation({
     onSuccess: () => {
       client.invalidateQueries(["user.selectUser"]);
       onClose();

@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const InviteSettings = ({ room }: Props): ReactElement => {
-  const mutation = trpc.useMutation(["invites.createInvite"]);
+  const mutation = trpc.proxy.invites.createInvite.useMutation();
 
   const handleSubmit = (email: string) => {
     mutation.mutate({ email, roomId: room.id });

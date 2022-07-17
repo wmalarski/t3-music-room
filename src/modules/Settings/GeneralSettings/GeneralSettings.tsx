@@ -16,7 +16,7 @@ export const GeneralSettings = ({ room }: Props): ReactElement => {
 
   const client = trpc.useContext();
 
-  const updateMutation = trpc.useMutation(["rooms.updateRoom"], {
+  const updateMutation = trpc.proxy.rooms.updateRoom.useMutation({
     onSuccess: () => {
       client.invalidateQueries(["members.selectMyMembers"]);
       client.invalidateQueries([
@@ -26,7 +26,7 @@ export const GeneralSettings = ({ room }: Props): ReactElement => {
     },
   });
 
-  const deleteMutation = trpc.useMutation(["rooms.deleteRoom"], {
+  const deleteMutation = trpc.proxy.rooms.deleteRoom.useMutation({
     onSuccess: () => {
       client.invalidateQueries(["members.selectMyMembers"]);
       router.replace(paths.index());
