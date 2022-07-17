@@ -9,9 +9,9 @@
     "button": "Create",
     "header": "Create Room"
   },
-  "RoomSettingsModal": {
-    "button": "Settings",
-    "header": "Room Settings"
+  "CreateInviteForm": {
+    "email": "Email",
+    "submit": "Invite"
   },
   "RoomMembersModal": {
     "button": "Members",
@@ -30,7 +30,8 @@
     "submit": "Submit"
   },
   "Room": {
-    "title": "{{name}}|Music Room"
+    "title": "{{name}} | Music Room",
+    "settings": "Room Settings"
   },
   "ProtectedLayout": {
     "title": "Music Room"
@@ -43,5 +44,11 @@
     "name": "Name",
     "image": "Image",
     "submit": "Submit"
+  },
+  "Settings": {
+    "title": "{{name}} Settings | Music Room",
+    "general": "General",
+    "members": "Members",
+    "invites": "Invites"
   }
 }
