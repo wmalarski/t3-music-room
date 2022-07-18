@@ -45,6 +45,13 @@
     "image": "Image",
     "submit": "Submit"
   },
+  "Pagination": {
+    "of": "{{current}} of {{max}}"
+  },
+  "ResultMessage": {
+    "error": "Error",
+    "empty": "No data"
+  },
   "Settings": {
     "title": "{{name}} Settings | Music Room",
     "general": "General",
