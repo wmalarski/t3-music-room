@@ -1,7 +1,6 @@
 import type { AppRouter } from "@server/router";
-import { httpBatchLink, loggerLink } from "@trpc/client";
+import { httpBatchLink } from "@trpc/client";
 import { setupTRPC } from "@trpc/next";
-import type { inferProcedureInput, inferProcedureOutput } from "@trpc/server";
 import { NextPageContext } from "next";
 import superjson from "superjson";
 
@@ -59,11 +58,11 @@ export const trpc = setupTRPC<AppRouter, SSRContext>({
        */
       links: [
         // adds pretty logs to your console in development and logs errors in production
-        loggerLink({
-          enabled: (opts) =>
-            process.env.NODE_ENV === "development" ||
-            (opts.direction === "down" && opts.result instanceof Error),
-        }),
+        // loggerLink({
+        //   enabled: (opts) =>
+        //     process.env.NODE_ENV === "development" ||
+        //     (opts.direction === "down" && opts.result instanceof Error),
+        // }),
 
         httpBatchLink({
           url: `${getBaseUrl()}/api/trpc`,
@@ -78,50 +77,5 @@ export const trpc = setupTRPC<AppRouter, SSRContext>({
   /**
    * @link https://trpc.io/docs/ssr
    */
-  ssr: true,
-  /**
-   * Set headers or status code when doing SSR
-   */
-  responseMeta(opts) {
-    const ctx = opts.ctx as SSRContext;
-
-    if (ctx.status) {
-      // If HTTP status set, propagate that
-      return {
-        status: ctx.status,
-      };
-    }
-
-    const error = opts.clientErrors[0];
-    if (error) {
-      // Propagate http first error from API calls
-      return {
-        status: error.data?.httpStatus ?? 500,
-      };
-    }
-
-    // for app caching with SSR see https://trpc.io/docs/caching
-
-    return {};
-  },
+  ssr: false,
 });
-
-/**
- * This is a helper method to infer the output of a query resolver
- * @example type HelloOutput = inferQueryOutput<'hello'>
- */
-export type InferQueryOutput<
-  RouteKey extends keyof AppRouter["_def"]["queries"]
-> = inferProcedureOutput<AppRouter["_def"]["queries"][RouteKey]>;
-
-export type InferQueryInput<
-  RouteKey extends keyof AppRouter["_def"]["queries"]
-> = inferProcedureInput<AppRouter["_def"]["queries"][RouteKey]>;
-
-export type InferMutationOutput<
-  RouteKey extends keyof AppRouter["_def"]["mutations"]
-> = inferProcedureOutput<AppRouter["_def"]["mutations"][RouteKey]>;
-
-export type InferMutationInput<
-  RouteKey extends keyof AppRouter["_def"]["mutations"]
-> = inferProcedureInput<AppRouter["_def"]["mutations"][RouteKey]>;

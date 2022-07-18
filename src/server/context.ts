@@ -24,9 +24,9 @@ export const createContextInner = (opts: CreateContextOptions) => {
 
 export type Context = trpc.inferAsyncReturnType<typeof createContextInner>;
 
-export async function createContext(
+export const createContext = async (
   opts: trpcNext.CreateNextContextOptions
-): Promise<Context> {
+): Promise<Context> => {
   const req = opts?.req;
   const res = opts?.res;
 
@@ -39,4 +39,4 @@ export async function createContext(
     session,
     prisma,
   };
-}
+};
