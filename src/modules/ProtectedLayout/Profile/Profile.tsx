@@ -20,7 +20,7 @@ export const Profile = (): ReactElement => {
 
   const client = trpc.useContext();
 
-  const userQuery = trpc.proxy.user.selectUser.useQuery();
+  const query = trpc.proxy.user.selectUser.useQuery();
 
   const mutation = trpc.proxy.user.updateUser.useMutation({
     onSuccess: () => {
@@ -49,11 +49,11 @@ export const Profile = (): ReactElement => {
           <ModalHeader>{t("header")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={5}>
-            {userQuery.status === "success" && (
+            {query.status === "success" && (
               <ProfileForm
                 isLoading={mutation.isLoading}
                 onSubmit={handleSubmit}
-                user={userQuery.data}
+                user={query.data}
               />
             )}
           </ModalBody>

@@ -3,6 +3,7 @@ import { Room } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 import { ReactElement } from "react";
 import { CreateInviteForm } from "./CreateInviteForm/CreateInviteForm";
+import { InviteList } from "./InviteList/InviteList";
 
 type Props = {
   room: Room;
@@ -21,6 +22,7 @@ export const InviteSettings = ({ room }: Props): ReactElement => {
         isLoading={mutation.isLoading}
         onSubmit={handleSubmit}
       />
+      <InviteList room={room} />
     </VStack>
   );
 };

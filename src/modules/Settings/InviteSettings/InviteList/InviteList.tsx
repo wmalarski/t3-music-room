@@ -15,7 +15,7 @@ export const InviteList = ({ room }: Props): ReactElement => {
 
   const query = trpc.proxy.invites.selectInvites.useQuery({
     roomId: room.id,
-    skip: 0,
+    skip: page * take,
     take,
   });
 

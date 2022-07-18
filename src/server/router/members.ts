@@ -61,15 +61,22 @@ export const membersRouter = t.router({
           userId: ctx.session.user.id,
         },
       });
-      return ctx.prisma.member.findMany({
-        skip: input.skip,
-        take: input.take,
-        where: {
-          roomId: input.roomId,
-        },
-        include: {
-          user: true,
-        },
-      });
+      return ctx.prisma.$transaction([
+        ctx.prisma.member.findMany({
+          skip: input.skip,
+          take: input.take,
+          where: {
+            roomId: input.roomId,
+          },
+          include: {
+            user: true,
+          },
+        }),
+        ctx.prisma.member.count({
+          where: {
+            roomId: input.roomId,
+          },
+        }),
+      ]);
     }),
 });
