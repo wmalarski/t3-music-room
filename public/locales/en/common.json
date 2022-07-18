@@ -57,5 +57,8 @@
     "general": "General",
     "members": "Members",
     "invites": "Invites"
+  },
+  "InviteListItem": {
+    "remove": "Remove"
   }
 }

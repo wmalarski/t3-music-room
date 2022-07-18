@@ -20,12 +20,9 @@ export const invitesRouter = t.router({
       });
 
       return ctx.prisma.$transaction([
-        ctx.prisma.member.findMany({
+        ctx.prisma.invite.findMany({
           skip: input.skip,
           take: input.take,
-          include: {
-            user: true,
-          },
           where: {
             roomId: input.roomId,
           },

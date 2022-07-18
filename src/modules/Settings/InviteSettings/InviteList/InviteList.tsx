@@ -1,9 +1,10 @@
-import { Box, Spinner, StackDivider, VStack } from "@chakra-ui/react";
+import { Spinner, StackDivider, VStack } from "@chakra-ui/react";
 import { Pagination } from "@components/Pagination/Pagination";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
 import { Room } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 import { ReactElement, useState } from "react";
+import { InviteListItem } from "./InviteListItem/InviteListItem";
 
 type Props = {
   room: Room;
@@ -35,8 +36,8 @@ export const InviteList = ({ room }: Props): ReactElement => {
 
   return (
     <VStack divider={<StackDivider />}>
-      {query.data[0].map((member) => (
-        <Box key={member.id}>{member.user.name}</Box>
+      {invites.map((invite) => (
+        <InviteListItem invite={invite} key={invite.id} />
       ))}
       <Pagination
         current={page}
