@@ -7,6 +7,7 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
@@ -15,6 +16,8 @@ import { ProfileForm, ProfileFormValue } from "./ProfileForm/ProfileForm";
 
 export const Profile = (): ReactElement => {
   const { t } = useTranslation("common", { keyPrefix: "Profile" });
+
+  const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -26,6 +29,19 @@ export const Profile = (): ReactElement => {
     onSuccess: () => {
       client.invalidateQueries(["user.selectUser"]);
       onClose();
+      toast({
+        title: t("updateSuccess"),
+        status: "success",
+        isClosable: true,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: t("updateError"),
+        status: "error",
+        description: error.message,
+        isClosable: true,
+      });
     },
   });
 

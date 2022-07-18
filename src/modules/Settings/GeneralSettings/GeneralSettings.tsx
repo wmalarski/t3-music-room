@@ -1,8 +1,9 @@
-import { VStack } from "@chakra-ui/react";
+import { useToast, VStack } from "@chakra-ui/react";
 import { RoomForm, RoomFormValue } from "@modules/RoomForm/RoomForm";
 import { Room } from "@prisma/client";
 import { paths } from "@utils/paths";
 import { trpc } from "@utils/trpc";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import { RoomDeleteForm } from "./RoomDeleteForm/RoomDeleteForm";
@@ -12,6 +13,10 @@ type Props = {
 };
 
 export const GeneralSettings = ({ room }: Props): ReactElement => {
+  const { t } = useTranslation("common", { keyPrefix: "GeneralSettings" });
+
+  const toast = useToast();
+
   const router = useRouter();
 
   const client = trpc.useContext();
@@ -23,6 +28,19 @@ export const GeneralSettings = ({ room }: Props): ReactElement => {
         "members.selectMemberByRoomId",
         { roomId: room.id },
       ]);
+      toast({
+        title: t("updateSuccess"),
+        status: "success",
+        isClosable: true,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: t("updateError"),
+        status: "error",
+        description: error.message,
+        isClosable: true,
+      });
     },
   });
 
@@ -30,6 +48,14 @@ export const GeneralSettings = ({ room }: Props): ReactElement => {
     onSuccess: () => {
       client.invalidateQueries(["members.selectMyMembers"]);
       router.replace(paths.index());
+    },
+    onError: (error) => {
+      toast({
+        title: t("deleteError"),
+        status: "error",
+        description: error.message,
+        isClosable: true,
+      });
     },
   });
 

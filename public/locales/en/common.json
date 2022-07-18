@@ -7,7 +7,8 @@
   },
   "CreateRoomModal": {
     "button": "Create",
-    "header": "Create Room"
+    "header": "Create Room",
+    "error": "Create error"
   },
   "CreateInviteForm": {
     "email": "Email",
@@ -38,7 +39,9 @@
   },
   "Profile": {
     "button": "Profile",
-    "header": "My profile"
+    "header": "My profile",
+    "updateError": "Update failed",
+    "updateSuccess": "Update successful"
   },
   "ProfileForm": {
     "name": "Name",
@@ -59,6 +62,17 @@
     "invites": "Invites"
   },
   "InviteListItem": {
-    "remove": "Remove"
+    "remove": "Remove",
+    "removeSuccess": "Delete success",
+    "removeError": "Delete error"
+  },
+  "GeneralSettings": {
+    "updateSuccess": "Room updated",
+    "updateError": "Update error",
+    "deleteError": "Delete error"
+  },
+  "InviteSettings": {
+    "createSuccess": "Create success",
+    "createError": "Create error"
   }
 }

@@ -1,4 +1,4 @@
-import { Button, HStack, Text } from "@chakra-ui/react";
+import { Button, HStack, Text, useToast } from "@chakra-ui/react";
 import { Invite } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
@@ -11,11 +11,26 @@ type Props = {
 export const InviteListItem = ({ invite }: Props): ReactElement => {
   const { t } = useTranslation("common", { keyPrefix: "InviteListItem" });
 
+  const toast = useToast();
+
   const client = trpc.useContext();
 
   const mutation = trpc.proxy.invites.deleteInvite.useMutation({
     onSuccess: () => {
       client.invalidateQueries(["invites.selectInvites"]);
+      toast({
+        title: t("removeSuccess"),
+        status: "success",
+        isClosable: true,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: t("removeError"),
+        status: "error",
+        description: error.message,
+        isClosable: true,
+      });
     },
   });
 

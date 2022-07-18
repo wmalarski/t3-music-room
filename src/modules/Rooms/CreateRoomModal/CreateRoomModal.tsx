@@ -7,23 +7,38 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { RoomForm, RoomFormValue } from "@modules/RoomForm/RoomForm";
+import { paths } from "@utils/paths";
 import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
+import { useRouter } from "next/router";
 import { ReactElement } from "react";
 
 export const CreateRoomModal = (): ReactElement => {
   const { t } = useTranslation("common", { keyPrefix: "CreateRoomModal" });
+
+  const toast = useToast();
+
+  const router = useRouter();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const client = trpc.useContext();
 
   const mutation = trpc.proxy.rooms.createRoom.useMutation({
-    onSuccess: () => {
+    onSuccess: (data) => {
       client.invalidateQueries(["members.selectMyMembers"]);
-      onClose();
+      router.push(paths.room(data.room.id));
+    },
+    onError: (error) => {
+      toast({
+        title: t("error"),
+        status: "error",
+        description: error.message,
+        isClosable: true,
+      });
     },
   });
 
