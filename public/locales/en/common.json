@@ -77,7 +77,7 @@
     "createSuccess": "Create success",
     "createError": "Create error"
   },
-  "MembersListItem": {
+  "DeleteMemberButton": {
     "removeSuccess": "Delete success",
     "removeError": "Delete error",
     "remove": "Delete"
