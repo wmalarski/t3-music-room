@@ -39,7 +39,7 @@ export const InviteListItem = ({ invite }: Props): ReactElement => {
   };
 
   return (
-    <HStack key={invite.id}>
+    <HStack>
       <Text>{invite.email}</Text>
       <Button isLoading={mutation.isLoading} onClick={handleRemoveClick}>
         {t("remove")}

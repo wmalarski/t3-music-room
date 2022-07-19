@@ -72,7 +72,16 @@
     "deleteError": "Delete error"
   },
   "InviteSettings": {
+    "heading": "Invites",
     "createSuccess": "Create success",
     "createError": "Create error"
+  },
+  "MembersListItem": {
+    "removeSuccess": "Delete success",
+    "removeError": "Delete error",
+    "remove": "Delete"
+  },
+  "MembersSettings": {
+    "heading": "Members"
   }
 }

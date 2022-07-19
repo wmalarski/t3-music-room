@@ -1,4 +1,5 @@
 import { t } from "@server/trpc";
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 import { protectedProcedure } from "./auth";
 
@@ -78,5 +79,36 @@ export const membersRouter = t.router({
           },
         }),
       ]);
+    }),
+  deleteMember: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const member = await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          id: input.id,
+        },
+      });
+
+      const myMember = await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          roomId: member.roomId,
+          userId: ctx.session.user.id,
+          role: "owner",
+        },
+      });
+
+      if (myMember.id === input.id) {
+        throw new TRPCError({ code: "BAD_REQUEST" });
+      }
+
+      return ctx.prisma.member.delete({
+        where: {
+          id: input.id,
+        },
+      });
     }),
 });

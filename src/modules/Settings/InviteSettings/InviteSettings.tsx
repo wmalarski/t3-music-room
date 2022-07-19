@@ -1,4 +1,4 @@
-import { useToast, VStack } from "@chakra-ui/react";
+import { Heading, useToast, VStack } from "@chakra-ui/react";
 import { Room } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
@@ -42,6 +42,7 @@ export const InviteSettings = ({ room }: Props): ReactElement => {
 
   return (
     <VStack>
+      <Heading as="h3">{t("heading")}</Heading>
       <CreateInviteForm
         isLoading={mutation.isLoading}
         onSubmit={handleSubmit}

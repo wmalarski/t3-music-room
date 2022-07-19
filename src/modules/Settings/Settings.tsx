@@ -59,7 +59,7 @@ export const Settings = ({ roomId }: Props): ReactElement => {
               <GeneralSettings room={query.data.room} />
             </TabPanel>
             <TabPanel>
-              <MembersSettings room={query.data.room} />
+              <MembersSettings room={query.data.room} userMember={query.data} />
             </TabPanel>
             <TabPanel>
               <InviteSettings room={query.data.room} />

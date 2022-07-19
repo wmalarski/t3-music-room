@@ -1,15 +1,17 @@
-import { Box, Spinner, StackDivider, VStack } from "@chakra-ui/react";
+import { Spinner, StackDivider, VStack } from "@chakra-ui/react";
 import { Pagination } from "@components/Pagination/Pagination";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
-import { Room } from "@prisma/client";
+import { Member, Room } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 import { ReactElement, useState } from "react";
+import { MembersListItem } from "./MembersListItem/MembersListItem";
 
 type Props = {
   room: Room;
+  userMember: Member;
 };
 
-export const MembersList = ({ room }: Props): ReactElement => {
+export const MembersList = ({ room, userMember }: Props): ReactElement => {
   const [page, setPage] = useState(0);
   const take = 10;
 
@@ -36,7 +38,11 @@ export const MembersList = ({ room }: Props): ReactElement => {
   return (
     <VStack divider={<StackDivider />}>
       {invites.map((member) => (
-        <Box key={member.id}>{member.user.name}</Box>
+        <MembersListItem
+          key={member.id}
+          member={member}
+          userMember={userMember}
+        />
       ))}
       <Pagination
         current={page}
