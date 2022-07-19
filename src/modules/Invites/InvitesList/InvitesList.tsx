@@ -1,21 +1,15 @@
 import { Spinner, StackDivider, VStack } from "@chakra-ui/react";
 import { Pagination } from "@components/Pagination/Pagination";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
-import { Room } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 import { ReactElement, useState } from "react";
 import { InviteListItem } from "./InviteListItem/InviteListItem";
 
-type Props = {
-  room: Room;
-};
-
-export const InviteList = ({ room }: Props): ReactElement => {
+export const InviteList = (): ReactElement => {
   const [page, setPage] = useState(0);
   const take = 10;
 
-  const query = trpc.proxy.invites.selectRoomInvites.useQuery({
-    roomId: room.id,
+  const query = trpc.proxy.invites.selectUserInvites.useQuery({
     skip: page * take,
     take,
   });

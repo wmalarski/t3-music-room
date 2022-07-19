@@ -19,7 +19,7 @@ export const InviteSettings = ({ room }: Props): ReactElement => {
 
   const mutation = trpc.proxy.invites.createInvite.useMutation({
     onSuccess: () => {
-      client.invalidateQueries(["invites.selectInvites"]);
+      client.invalidateQueries(["invites.selectRoomInvites"]);
       toast({
         title: t("createSuccess"),
         status: "success",

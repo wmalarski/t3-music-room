@@ -3,7 +3,7 @@ import { z } from "zod";
 import { protectedProcedure } from "./auth";
 
 export const invitesRouter = t.router({
-  selectInvites: protectedProcedure
+  selectRoomInvites: protectedProcedure
     .input(
       z.object({
         roomId: z.string(),
@@ -27,9 +27,32 @@ export const invitesRouter = t.router({
             roomId: input.roomId,
           },
         }),
-        ctx.prisma.member.count({
+        ctx.prisma.invite.count({
           where: {
             roomId: input.roomId,
+          },
+        }),
+      ]);
+    }),
+  selectUserInvites: protectedProcedure
+    .input(
+      z.object({
+        take: z.number().min(0).max(100),
+        skip: z.number().min(0),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.$transaction([
+        ctx.prisma.invite.findMany({
+          skip: input.skip,
+          take: input.take,
+          where: {
+            email: ctx.session.user.email,
+          },
+        }),
+        ctx.prisma.invite.count({
+          where: {
+            email: ctx.session.user.email,
           },
         }),
       ]);

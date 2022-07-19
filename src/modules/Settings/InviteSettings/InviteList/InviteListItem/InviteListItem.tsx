@@ -17,7 +17,7 @@ export const InviteListItem = ({ invite }: Props): ReactElement => {
 
   const mutation = trpc.proxy.invites.deleteInvite.useMutation({
     onSuccess: () => {
-      client.invalidateQueries(["invites.selectInvites"]);
+      client.invalidateQueries(["invites.selectRoomInvites"]);
       toast({
         title: t("removeSuccess"),
         status: "success",

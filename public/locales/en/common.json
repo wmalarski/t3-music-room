@@ -83,5 +83,8 @@
   },
   "MembersSettings": {
     "heading": "Members"
+  },
+  "Invites": {
+    "title": "User invites"
   }
 }
