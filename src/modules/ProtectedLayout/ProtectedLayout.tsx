@@ -27,6 +27,9 @@ export const ProtectedLayout = ({ children }: Props): ReactElement => {
             <Heading>{t("title")}</Heading>
           </ChakraLink>
         </Link>
+        <Link href={paths.invites()} passHref>
+          <ChakraLink>{t("invites")}</ChakraLink>
+        </Link>
         <Profile />
         <Logout />
         {children}

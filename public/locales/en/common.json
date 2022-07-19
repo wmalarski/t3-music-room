@@ -35,7 +35,8 @@
     "settings": "Room Settings"
   },
   "ProtectedLayout": {
-    "title": "Music Room"
+    "title": "Music Room",
+    "invites": "Invites"
   },
   "Profile": {
     "button": "Profile",
