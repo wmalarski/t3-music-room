@@ -1,4 +1,4 @@
-import { Heading, HStack, Link as ChakraLink } from "@chakra-ui/react";
+import { Heading, HStack, Link as ChakraLink, Text } from "@chakra-ui/react";
 import { Room } from "@prisma/client";
 import { paths } from "@utils/paths";
 import { useTranslation } from "next-i18next";
@@ -26,7 +26,7 @@ export const RoomNav = ({ room }: Props): ReactElement => {
         </Link>
         <Link href={paths.settings(room.id)} passHref>
           <ChakraLink>
-            <Heading as="h2">{t("settings")}</Heading>
+            <Text>{t("settings")}</Text>
           </ChakraLink>
         </Link>
       </HStack>

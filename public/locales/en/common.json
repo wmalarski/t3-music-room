@@ -23,7 +23,7 @@
     "header": "Room Invites"
   },
   "RoomDeleteForm": {
-    "button": "Delete"
+    "submit": "Delete"
   },
   "RoomForm": {
     "name": "Name",

@@ -1,4 +1,9 @@
-import { Container, Heading, Link as ChakraLink } from "@chakra-ui/react";
+import {
+  Container,
+  Heading,
+  HStack,
+  Link as ChakraLink,
+} from "@chakra-ui/react";
 import { paths } from "@utils/paths";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
@@ -22,16 +27,18 @@ export const ProtectedLayout = ({ children }: Props): ReactElement => {
         <link href="/favicon.ico" rel="icon" />
       </Head>
       <Container display="flex" flexDirection="column" maxW="container.xl">
-        <Link href={paths.index()} passHref>
-          <ChakraLink>
-            <Heading>{t("title")}</Heading>
-          </ChakraLink>
-        </Link>
-        <Link href={paths.invites()} passHref>
-          <ChakraLink>{t("invites")}</ChakraLink>
-        </Link>
-        <Profile />
-        <Logout />
+        <HStack>
+          <Link href={paths.index()} passHref>
+            <ChakraLink>
+              <Heading>{t("title")}</Heading>
+            </ChakraLink>
+          </Link>
+          <Link href={paths.invites()} passHref>
+            <ChakraLink>{t("invites")}</ChakraLink>
+          </Link>
+          <Profile />
+          <Logout />
+        </HStack>
         {children}
       </Container>
     </>
