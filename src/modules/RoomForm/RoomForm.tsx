@@ -1,4 +1,10 @@
-import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  VStack,
+} from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { ChangeEvent, ReactElement, useState } from "react";
 
@@ -38,7 +44,7 @@ export const RoomForm = ({
   };
 
   return (
-    <Flex flexDirection="column" gap={5}>
+    <VStack gap={5}>
       <FormControl>
         <FormLabel htmlFor="name">{t("name")}</FormLabel>
         <Input id="name" onChange={handleNameChange} value={value.name} />
@@ -54,6 +60,6 @@ export const RoomForm = ({
       <Button isLoading={isLoading} onClick={handleClick}>
         {t("submit")}
       </Button>
-    </Flex>
+    </VStack>
   );
 };

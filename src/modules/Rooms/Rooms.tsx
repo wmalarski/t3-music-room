@@ -1,4 +1,4 @@
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Spinner, VStack } from "@chakra-ui/react";
 import { Pagination } from "@components/Pagination/Pagination";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
 import { paths } from "@utils/paths";
@@ -42,7 +42,7 @@ export const Rooms = (): ReactElement => {
   }
 
   return (
-    <Flex flexDirection="column">
+    <VStack>
       {members.map((member) => (
         <Link href={paths.room(member.room.id)} key={member.room.id}>
           {member.room.name}
@@ -54,6 +54,6 @@ export const Rooms = (): ReactElement => {
         onChange={setPage}
       />
       <CreateRoomModal />
-    </Flex>
+    </VStack>
   );
 };

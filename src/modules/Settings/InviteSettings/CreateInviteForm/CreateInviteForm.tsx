@@ -1,4 +1,10 @@
-import { Button, Flex, FormControl, FormLabel, Input } from "@chakra-ui/react";
+import {
+  Button,
+  FormControl,
+  FormLabel,
+  HStack,
+  Input,
+} from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { ChangeEvent, ReactElement, useState } from "react";
 
@@ -29,7 +35,7 @@ export const CreateInviteForm = ({
   };
 
   return (
-    <Flex flexDirection="row" gap={5}>
+    <HStack gap={5}>
       <FormControl>
         <FormLabel htmlFor="email">{t("email")}</FormLabel>
         <Input
@@ -42,6 +48,6 @@ export const CreateInviteForm = ({
       <Button isLoading={isLoading} onClick={handleClick}>
         {t("submit")}
       </Button>
-    </Flex>
+    </HStack>
   );
 };

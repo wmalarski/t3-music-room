@@ -1,10 +1,9 @@
-import { Flex, Link as ChakraLink, Spinner } from "@chakra-ui/react";
+import { Spinner, VStack } from "@chakra-ui/react";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
-import { paths } from "@utils/paths";
+import { RoomNav } from "@modules/RoomNav/RoomNav";
 import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import Link from "next/link";
 import { ReactElement } from "react";
 
 type Props = {
@@ -27,18 +26,12 @@ export const Room = ({ roomId }: Props): ReactElement => {
   return (
     <>
       <Head>
-        {query.status === "success" && (
-          <title>{t("title", { name: query.data.room.name })}</title>
-        )}
+        <title>{t("title", { name: query.data.room.name })}</title>
       </Head>
-      {query.status === "success" && (
-        <Flex flexDirection="column">
-          <Link href={paths.settings(roomId)}>
-            <ChakraLink>{t("settings")}</ChakraLink>
-          </Link>
-          <pre>{JSON.stringify(query.data, null, 2)}</pre>
-        </Flex>
-      )}
+      <VStack>
+        <RoomNav room={query.data.room} />
+        <pre>{JSON.stringify(query.data, null, 2)}</pre>
+      </VStack>
     </>
   );
 };

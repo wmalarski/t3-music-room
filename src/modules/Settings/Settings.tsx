@@ -1,6 +1,4 @@
 import {
-  Heading,
-  Link as ChakraLink,
   Spinner,
   Tab,
   TabList,
@@ -10,11 +8,10 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
-import { paths } from "@utils/paths";
+import { RoomNav } from "@modules/RoomNav/RoomNav";
 import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import Link from "next/link";
 import { ReactElement } from "react";
 import { GeneralSettings } from "./GeneralSettings/GeneralSettings";
 import { InviteSettings } from "./InviteSettings/InviteSettings";
@@ -43,11 +40,7 @@ export const Settings = ({ roomId }: Props): ReactElement => {
         <title>{t("title", { name: query.data.room.name })}</title>
       </Head>
       <VStack>
-        <Link href={paths.room(roomId)} passHref>
-          <ChakraLink>
-            <Heading as="h2">{query.data.room.name}</Heading>
-          </ChakraLink>
-        </Link>
+        <RoomNav room={query.data.room} />
         <Tabs>
           <TabList>
             <Tab>{t("general")}</Tab>

@@ -31,8 +31,7 @@
     "submit": "Submit"
   },
   "Room": {
-    "title": "{{name}} | Music Room",
-    "settings": "Room Settings"
+    "title": "{{name}} | Music Room"
   },
   "ProtectedLayout": {
     "title": "Music Room",
@@ -99,5 +98,8 @@
     "rejectSuccess": "Reject Success",
     "rejectError": "Reject Error",
     "reject": "Reject"
+  },
+  "RoomNav": {
+    "settings": "Settings"
   }
 }
