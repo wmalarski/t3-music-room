@@ -87,5 +87,10 @@
   },
   "Invites": {
     "title": "User invites"
+  },
+  "AcceptInvite": {
+    "accept": "Accept",
+    "acceptSuccess": "Invite accepted",
+    "acceptError": "Invite error"
   }
 }
