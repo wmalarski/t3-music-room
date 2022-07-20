@@ -1,6 +1,6 @@
 import { t } from "@server/trpc";
 import { z } from "zod";
-import { protectedProcedure } from "./auth";
+import { protectedProcedure, roomOwnerProcedure } from "./auth";
 
 export const roomsRouter = t.router({
   createRoom: protectedProcedure
@@ -27,60 +27,61 @@ export const roomsRouter = t.router({
 
       return { room, member };
     }),
-  updateRoom: protectedProcedure
+  updateRoom: roomOwnerProcedure
     .input(
       z.object({
-        id: z.string(),
+        roomId: z.string(),
         description: z.string(),
         name: z.string().min(3),
       })
     )
-    .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.member.findFirstOrThrow({
-        where: {
-          roomId: input.id,
-          role: "owner",
-          userId: ctx.session.user.id,
-        },
-      });
-
+    .mutation(({ ctx, input }) => {
       return ctx.prisma.room.update({
         data: {
           description: input.description,
           name: input.name,
         },
         where: {
-          id: input.id,
+          id: input.roomId,
         },
       });
     }),
-  deleteRoom: protectedProcedure
+  deleteRoom: roomOwnerProcedure
     .input(
       z.object({
-        id: z.string(),
+        roomId: z.string(),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const roomId = input.id;
-      await ctx.prisma.member.findFirstOrThrow({
-        where: {
-          roomId,
-          role: "owner",
-          userId: ctx.session.user.id,
-        },
-      });
-
       await ctx.prisma.action.deleteMany({
         where: {
-          message: { roomId: input.id },
+          message: {
+            roomId: input.roomId,
+          },
         },
       });
 
       return ctx.prisma.$transaction([
-        ctx.prisma.room.delete({ where: { id: input.id } }),
-        ctx.prisma.member.deleteMany({ where: { roomId } }),
-        ctx.prisma.message.deleteMany({ where: { roomId } }),
-        ctx.prisma.invite.deleteMany({ where: { roomId } }),
+        ctx.prisma.room.delete({
+          where: {
+            id: input.roomId,
+          },
+        }),
+        ctx.prisma.member.deleteMany({
+          where: {
+            roomId: input.roomId,
+          },
+        }),
+        ctx.prisma.message.deleteMany({
+          where: {
+            roomId: input.roomId,
+          },
+        }),
+        ctx.prisma.invite.deleteMany({
+          where: {
+            roomId: input.roomId,
+          },
+        }),
       ]);
     }),
 });

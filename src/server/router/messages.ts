@@ -1,23 +1,16 @@
 import { t } from "@server/trpc";
 import { z } from "zod";
-import { protectedProcedure } from "./auth";
+import { roomMemberProcedure } from "./auth";
 
 export const messagesRouter = t.router({
-  createMessage: protectedProcedure
+  createMessage: roomMemberProcedure
     .input(
       z.object({
         roomId: z.string(),
         text: z.string(),
       })
     )
-    .mutation(async ({ ctx, input }) => {
-      await ctx.prisma.member.findFirstOrThrow({
-        where: {
-          roomId: input.roomId,
-          userId: ctx.session.user.id,
-        },
-      });
-
+    .mutation(({ ctx, input }) => {
       return ctx.prisma.message.create({
         data: {
           data: input.text,

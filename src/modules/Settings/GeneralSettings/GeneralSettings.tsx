@@ -60,11 +60,11 @@ export const GeneralSettings = ({ room }: Props): ReactElement => {
   });
 
   const handleUpdateSubmit = (input: RoomFormValue) => {
-    updateMutation.mutate({ ...input, id: room.id });
+    updateMutation.mutate({ ...input, roomId: room.id });
   };
 
   const handleDeleteSubmit = () => {
-    deleteMutation.mutate({ id: room.id });
+    deleteMutation.mutate({ roomId: room.id });
   };
 
   return (

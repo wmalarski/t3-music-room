@@ -1,7 +1,7 @@
 import { t } from "@server/trpc";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { protectedProcedure } from "./auth";
+import { protectedProcedure, roomMemberProcedure } from "./auth";
 
 export const membersRouter = t.router({
   selectMyMembers: protectedProcedure
@@ -38,16 +38,16 @@ export const membersRouter = t.router({
     )
     .query(({ ctx, input }) => {
       return ctx.prisma.member.findFirstOrThrow({
-        include: {
-          room: true,
-        },
         where: {
           userId: ctx.session.user.id,
           roomId: input.roomId,
         },
+        include: {
+          room: true,
+        },
       });
     }),
-  selectRoomMembers: protectedProcedure
+  selectRoomMembers: roomMemberProcedure
     .input(
       z.object({
         roomId: z.string(),
@@ -55,13 +55,7 @@ export const membersRouter = t.router({
         skip: z.number().min(0),
       })
     )
-    .query(async ({ ctx, input }) => {
-      await ctx.prisma.member.findFirstOrThrow({
-        where: {
-          roomId: input.roomId,
-          userId: ctx.session.user.id,
-        },
-      });
+    .query(({ ctx, input }) => {
       return ctx.prisma.$transaction([
         ctx.prisma.member.findMany({
           skip: input.skip,
