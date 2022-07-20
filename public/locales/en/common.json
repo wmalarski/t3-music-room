@@ -73,7 +73,9 @@
     "deleteError": "Delete error"
   },
   "InviteSettings": {
-    "heading": "Invites",
+    "heading": "Invites"
+  },
+  "CreateInvite": {
     "createSuccess": "Create success",
     "createError": "Create error"
   },
