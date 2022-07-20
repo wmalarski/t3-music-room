@@ -101,5 +101,12 @@
   },
   "RoomNav": {
     "settings": "Settings"
+  },
+  "CreateMessageForm": {
+    "text": "Text",
+    "submit": "Submit"
+  },
+  "CreateMessage": {
+    "createError": "Create Error"
   }
 }

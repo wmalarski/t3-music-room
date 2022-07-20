@@ -3,7 +3,7 @@ import { Room } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 import { useTranslation } from "next-i18next";
 import { ReactElement } from "react";
-import { CreateInviteForm } from "../CreateInviteForm/CreateInviteForm";
+import { CreateInviteForm } from "./CreateInviteForm/CreateInviteForm";
 
 type Props = {
   room: Room;

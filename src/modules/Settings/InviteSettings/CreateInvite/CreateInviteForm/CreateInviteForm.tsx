@@ -8,7 +8,7 @@ import {
 import { useTranslation } from "next-i18next";
 import { ChangeEvent, ReactElement, useState } from "react";
 
-export type RoomFormValue = {
+export type CreateInviteFormValue = {
   name: string;
   description: string;
 };
