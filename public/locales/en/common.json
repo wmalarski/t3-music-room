@@ -92,5 +92,10 @@
     "accept": "Accept",
     "acceptSuccess": "Invite accepted",
     "acceptError": "Invite error"
+  },
+  "RejectInvite": {
+    "rejectSuccess": "Reject Success",
+    "rejectError": "Reject Error",
+    "reject": "Reject"
   }
 }
