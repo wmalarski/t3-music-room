@@ -1,9 +1,11 @@
-import { Box, Spinner, VStack } from "@chakra-ui/react";
+import { Spinner, StackDivider, VStack } from "@chakra-ui/react";
 import { Pagination } from "@components/Pagination/Pagination";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
 import { Room } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 import { ReactElement, useState } from "react";
+import { messageCurrentReducer } from "./MessageList.utils";
+import { MessageListItem } from "./MessageListItem/MessageListItem";
 
 type Props = {
   room: Room;
@@ -33,12 +35,16 @@ export const MessageList = ({ room }: Props): ReactElement => {
     return <ResultMessage variant="empty" />;
   }
 
+  const reduced = messages.reduce(messageCurrentReducer, []);
+
   return (
-    <VStack>
-      {messages.map((message) => (
-        <Box key={message.id}>
-          <pre>{JSON.stringify(message, null, 2)}</pre>
-        </Box>
+    <VStack divider={<StackDivider />}>
+      {reduced.map(({ message, status }) => (
+        <MessageListItem
+          isCurrent={status === "current"}
+          key={message.id}
+          message={message}
+        />
       ))}
       <Pagination
         current={page}

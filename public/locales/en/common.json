@@ -108,5 +108,9 @@
   },
   "CreateMessage": {
     "createError": "Create Error"
+  },
+  "DeleteMessage": {
+    "remove": "Remove",
+    "deleteError": "Delete Error"
   }
 }

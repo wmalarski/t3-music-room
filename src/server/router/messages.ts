@@ -1,6 +1,6 @@
 import { t } from "@server/trpc";
 import { z } from "zod";
-import { roomMemberProcedure } from "./auth";
+import { protectedProcedure, roomMemberProcedure } from "./auth";
 
 export const messagesRouter = t.router({
   selectMessages: roomMemberProcedure
@@ -43,7 +43,7 @@ export const messagesRouter = t.router({
       return ctx.prisma.message.findFirst({
         where: {
           roomId: input.roomId,
-          endedAt: { equals: null },
+          endedAt: null,
         },
         orderBy: {
           createdAt: "asc",
@@ -66,6 +66,33 @@ export const messagesRouter = t.router({
           data: input.text,
           userId: ctx.session.user.id,
           roomId: input.roomId,
+        },
+      });
+    }),
+  deleteMessage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const message = await ctx.prisma.message.findFirstOrThrow({
+        where: {
+          id: input.id,
+          endedAt: null,
+        },
+      });
+
+      await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          roomId: message.roomId,
+          userId: ctx.session.user.id,
+        },
+      });
+
+      return ctx.prisma.message.delete({
+        where: {
+          id: input.id,
         },
       });
     }),
