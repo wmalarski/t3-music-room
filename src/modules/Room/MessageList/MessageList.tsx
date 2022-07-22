@@ -37,7 +37,7 @@ export const MessageList = ({ room }: Props): ReactElement => {
     <VStack>
       {messages.map((message) => (
         <Box key={message.id}>
-          <pre>{JSON.stringify(message)}</pre>
+          <pre>{JSON.stringify(message, null, 2)}</pre>
         </Box>
       ))}
       <Pagination

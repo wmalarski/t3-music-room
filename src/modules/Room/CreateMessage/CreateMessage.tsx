@@ -14,7 +14,13 @@ export const CreateMessage = ({ room }: Props): ReactElement => {
 
   const toast = useToast();
 
+  const client = trpc.useContext();
+
   const mutation = trpc.proxy.messages.createMessage.useMutation({
+    onSuccess: () => {
+      client.invalidateQueries(["messages.selectMessages"]);
+      client.invalidateQueries(["messages.selectCurrentMessages"]);
+    },
     onError: (error) => {
       toast({
         title: t("createError"),

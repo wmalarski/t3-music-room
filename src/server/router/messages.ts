@@ -19,6 +19,12 @@ export const messagesRouter = t.router({
           where: {
             roomId: input.roomId,
           },
+          orderBy: {
+            createdAt: "asc",
+          },
+          include: {
+            user: true,
+          },
         }),
         ctx.prisma.message.count({
           where: {
@@ -26,6 +32,26 @@ export const messagesRouter = t.router({
           },
         }),
       ]);
+    }),
+  selectCurrentMessages: roomMemberProcedure
+    .input(
+      z.object({
+        roomId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.prisma.message.findFirst({
+        where: {
+          roomId: input.roomId,
+          endedAt: { equals: null },
+        },
+        orderBy: {
+          createdAt: "asc",
+        },
+        include: {
+          user: true,
+        },
+      });
     }),
   createMessage: roomMemberProcedure
     .input(

@@ -6,6 +6,7 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { ReactElement } from "react";
 import { CreateMessage } from "./CreateMessage/CreateMessage";
+import { CurrentMessage } from "./CurrentMessage/CurrentMessage";
 import { MessageList } from "./MessageList/MessageList";
 
 type Props = {
@@ -34,6 +35,7 @@ export const Room = ({ roomId }: Props): ReactElement => {
         <RoomNav room={query.data.room} />
         <MessageList room={query.data.room} />
         <CreateMessage room={query.data.room} />
+        <CurrentMessage room={query.data.room} />
         <pre>{JSON.stringify(query.data, null, 2)}</pre>
       </VStack>
     </>
