@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const CurrentMessage = ({ room }: Props): ReactElement => {
-  const query = trpc.proxy.messages.selectCurrentMessages.useQuery({
+  const query = trpc.proxy.messages.selectCurrentMessage.useQuery({
     roomId: room.id,
   });
 

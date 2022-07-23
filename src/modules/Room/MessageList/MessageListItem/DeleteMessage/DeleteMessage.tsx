@@ -18,7 +18,7 @@ export const DeleteMessage = ({ message }: Props): ReactElement => {
   const mutation = trpc.proxy.messages.deleteMessage.useMutation({
     onSuccess: () => {
       client.invalidateQueries(["messages.selectMessages"]);
-      client.invalidateQueries(["messages.selectCurrentMessages"]);
+      client.invalidateQueries(["messages.selectCurrentMessage"]);
     },
     onError: (error) => {
       toast({

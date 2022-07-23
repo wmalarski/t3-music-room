@@ -18,7 +18,7 @@ export const MessageActions = ({ message }: Props): ReactElement => {
 
   const mutation = trpc.proxy.messages.reactToMessage.useMutation({
     onSuccess: () => {
-      client.invalidateQueries(["messages.selectCurrentMessages"]);
+      client.invalidateQueries(["messages.selectCurrentMessage"]);
     },
     onError: (error) => {
       toast({
