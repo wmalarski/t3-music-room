@@ -112,5 +112,12 @@
   "DeleteMessage": {
     "remove": "Remove",
     "deleteError": "Delete Error"
+  },
+  "EndMessage": {
+    "endError": "End Error",
+    "end": "End"
+  },
+  "MessagePlayer": {
+    "title": "Message Player"
   }
 }

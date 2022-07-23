@@ -1,8 +1,9 @@
-import { Spinner, VStack } from "@chakra-ui/react";
+import { Skeleton, Spinner, VStack } from "@chakra-ui/react";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
 import { Room } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 import { ReactElement } from "react";
+import { MessagePlayer } from "./MessagePlayer/MessagePlayer";
 
 type Props = {
   room: Room;
@@ -21,9 +22,13 @@ export const CurrentMessage = ({ room }: Props): ReactElement => {
     return <ResultMessage message={query.error.message} variant="error" />;
   }
 
+  if (!query.data) {
+    return <Skeleton />;
+  }
+
   return (
     <VStack>
-      <pre>{JSON.stringify(query.data, null, 2)}</pre>
+      <MessagePlayer message={query.data} />
     </VStack>
   );
 };

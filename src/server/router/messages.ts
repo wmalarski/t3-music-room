@@ -50,6 +50,12 @@ export const messagesRouter = t.router({
         },
         include: {
           user: true,
+          actions: {
+            take: 1,
+            where: {
+              userId: ctx.session.user.id,
+            },
+          },
         },
       });
     }),
@@ -93,6 +99,35 @@ export const messagesRouter = t.router({
       return ctx.prisma.message.delete({
         where: {
           id: input.id,
+        },
+      });
+    }),
+  endMessage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const message = await ctx.prisma.message.findFirstOrThrow({
+        where: {
+          id: input.id,
+        },
+      });
+
+      await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          roomId: message.roomId,
+          userId: ctx.session.user.id,
+        },
+      });
+
+      return ctx.prisma.message.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          endedAt: new Date(),
         },
       });
     }),

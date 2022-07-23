@@ -1,0 +1,42 @@
+import { Button, useToast } from "@chakra-ui/react";
+import { Message } from "@prisma/client";
+import { trpc } from "@utils/trpc";
+import { useTranslation } from "next-i18next";
+import { ReactElement } from "react";
+
+type Props = {
+  message: Message;
+};
+
+export const EndMessage = ({ message }: Props): ReactElement => {
+  const { t } = useTranslation("common", { keyPrefix: "EndMessage" });
+
+  const toast = useToast();
+
+  const client = trpc.useContext();
+
+  const mutation = trpc.proxy.messages.endMessage.useMutation({
+    onSuccess: () => {
+      client.invalidateQueries(["messages.selectMessages"]);
+      client.invalidateQueries(["messages.selectCurrentMessages"]);
+    },
+    onError: (error) => {
+      toast({
+        title: t("endError"),
+        status: "error",
+        description: error.message,
+        isClosable: true,
+      });
+    },
+  });
+
+  const handleSubmit = () => {
+    mutation.mutate({ id: message.id });
+  };
+
+  return (
+    <Button isLoading={mutation.isLoading} onClick={handleSubmit}>
+      {t("end")}
+    </Button>
+  );
+};
