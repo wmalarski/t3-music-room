@@ -5,7 +5,7 @@ import {
   HStack,
   LinkBox,
   LinkOverlay,
-  Spinner,
+  Skeleton,
   Text,
   VStack,
 } from "@chakra-ui/react";
@@ -40,7 +40,7 @@ export const RoomsList = (): ReactElement => {
   );
 
   if (query.status === "loading" || query.status === "idle") {
-    return <Spinner />;
+    return <Skeleton h="xs" w="full" />;
   }
 
   if (query.status === "error") {
@@ -58,7 +58,7 @@ export const RoomsList = (): ReactElement => {
       {members.map((member) => (
         <LinkBox
           as="article"
-          backgroundColor="white"
+          bgColor="white"
           key={member.room.id}
           p="5"
           rounded="md"
@@ -77,7 +77,7 @@ export const RoomsList = (): ReactElement => {
           <Text>{member.room.description}</Text>
         </LinkBox>
       ))}
-      <Center backgroundColor="white" padding={2} w="full">
+      <Center bgColor="white" padding={2} w="full">
         <Pagination
           current={page}
           maxPage={Math.ceil(maxSize / take)}

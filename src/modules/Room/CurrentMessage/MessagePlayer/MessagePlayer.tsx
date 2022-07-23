@@ -13,7 +13,7 @@ export const MessagePlayer = ({ message }: Props): ReactElement => {
 
   return (
     <VStack>
-      <Heading as="h3" size="xl">
+      <Heading as="h3" size="md">
         {t("title")}
       </Heading>
       <HStack>

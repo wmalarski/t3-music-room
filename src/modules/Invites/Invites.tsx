@@ -1,4 +1,4 @@
-import { VStack } from "@chakra-ui/react";
+import { Heading, HStack, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { ReactElement } from "react";
@@ -13,6 +13,9 @@ export const Invites = (): ReactElement => {
         <title>{t("title")}</title>
       </Head>
       <VStack>
+        <HStack justifyContent="flex-start" p={2} w="full">
+          <Heading size="lg">{t("title")}</Heading>
+        </HStack>
         <InviteList />
       </VStack>
     </>

@@ -35,7 +35,7 @@ export const CreateMessageForm = ({
   };
 
   return (
-    <HStack gap={5}>
+    <HStack bgColor="white" gap={1} p="5" rounded="md" w="full">
       <FormControl>
         <FormLabel htmlFor="text">{t("text")}</FormLabel>
         <Input id="text" onChange={handleTextChange} value={text} />

@@ -1,4 +1,4 @@
-import { Spinner, VStack } from "@chakra-ui/react";
+import { HStack, Spinner, VStack } from "@chakra-ui/react";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
 import { RoomNav } from "@modules/RoomNav/RoomNav";
 import { trpc } from "@utils/trpc";
@@ -33,9 +33,13 @@ export const Room = ({ roomId }: Props): ReactElement => {
       </Head>
       <VStack>
         <RoomNav room={query.data.room} />
-        <MessageList room={query.data.room} />
-        <CreateMessage room={query.data.room} />
-        <CurrentMessage room={query.data.room} />
+        <HStack>
+          <CurrentMessage room={query.data.room} />
+          <VStack>
+            <MessageList room={query.data.room} />
+            <CreateMessage room={query.data.room} />
+          </VStack>
+        </HStack>
       </VStack>
     </>
   );

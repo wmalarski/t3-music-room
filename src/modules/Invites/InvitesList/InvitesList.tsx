@@ -1,4 +1,4 @@
-import { Spinner, StackDivider, VStack } from "@chakra-ui/react";
+import { Skeleton, StackDivider, VStack } from "@chakra-ui/react";
 import { Pagination } from "@components/Pagination/Pagination";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
 import { trpc } from "@utils/trpc";
@@ -15,7 +15,7 @@ export const InviteList = (): ReactElement => {
   });
 
   if (query.status === "loading" || query.status === "idle") {
-    return <Spinner />;
+    return <Skeleton h="xs" w="full" />;
   }
 
   if (query.status === "error") {

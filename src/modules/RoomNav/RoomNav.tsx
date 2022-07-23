@@ -18,10 +18,12 @@ export const RoomNav = ({ room }: Props): ReactElement => {
       <Head>
         <title>{t("title", { name: room.name })}</title>
       </Head>
-      <HStack>
+      <HStack w="full">
         <Link href={paths.room(room.id)} passHref>
           <ChakraLink>
-            <Heading as="h2">{room.name}</Heading>
+            <Heading as="h2" size="lg">
+              {room.name}
+            </Heading>
           </ChakraLink>
         </Link>
         <Link href={paths.settings(room.id)} passHref>

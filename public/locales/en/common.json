@@ -128,5 +128,8 @@
   },
   "Rooms": {
     "title": "My rooms"
+  },
+  "MessageList": {
+    "title": "Messages"
   }
 }

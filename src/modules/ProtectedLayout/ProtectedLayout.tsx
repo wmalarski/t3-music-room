@@ -29,17 +29,15 @@ export const ProtectedLayout = ({ children }: Props): ReactElement => {
         <link href="/favicon.ico" rel="icon" />
       </Head>
       <Box
-        backgroundColor="gray.50"
-        h="100vh"
-        left={0}
+        bgColor="gray.50"
+        inset={0}
+        minH="100vh"
         position="absolute"
-        top={0}
-        w="100vw"
         zIndex={-1}
       />
       <VStack w="full">
         <HStack
-          backgroundColor="white"
+          bgColor="white"
           gap={1}
           justifyContent="space-between"
           px={6}

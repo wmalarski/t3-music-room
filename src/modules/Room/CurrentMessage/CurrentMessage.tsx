@@ -28,10 +28,10 @@ export const CurrentMessage = ({ room }: Props): ReactElement => {
   }
 
   return (
-    <VStack>
+    <VStack bgColor="white" p="5" rounded="md" w="full">
       <MessagePlayer message={query.data} />
       <MessageActions message={query.data} />
-      <pre>{JSON.stringify(query.data, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(query.data, null, 2)}</pre> */}
     </VStack>
   );
 };
