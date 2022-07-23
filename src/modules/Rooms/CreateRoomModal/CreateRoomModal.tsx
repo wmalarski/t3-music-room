@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Modal,
   ModalBody,
@@ -54,7 +55,7 @@ export const CreateRoomModal = (): ReactElement => {
   };
 
   return (
-    <>
+    <Box>
       <Button onClick={onOpen}>{t("button")}</Button>
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
@@ -66,6 +67,6 @@ export const CreateRoomModal = (): ReactElement => {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </>
+    </Box>
   );
 };

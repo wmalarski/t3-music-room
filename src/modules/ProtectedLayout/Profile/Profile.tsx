@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Modal,
   ModalBody,
@@ -57,7 +58,7 @@ export const Profile = (): ReactElement => {
   };
 
   return (
-    <>
+    <Box>
       <Button onClick={onOpen}>{t("button")}</Button>
       <Modal isOpen={isOpen} onClose={handleClose}>
         <ModalOverlay />
@@ -75,6 +76,6 @@ export const Profile = (): ReactElement => {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </>
+    </Box>
   );
 };

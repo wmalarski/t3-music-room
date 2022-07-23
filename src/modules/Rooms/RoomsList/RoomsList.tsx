@@ -1,12 +1,25 @@
-import { Spinner, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Heading,
+  HStack,
+  LinkBox,
+  LinkOverlay,
+  Spinner,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import { Pagination } from "@components/Pagination/Pagination";
 import { ResultMessage } from "@components/ResultMessage/ResultMessage";
 import { paths } from "@utils/paths";
 import { trpc } from "@utils/trpc";
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
 import { ReactElement, useState } from "react";
 
 export const RoomsList = (): ReactElement => {
+  const { i18n } = useTranslation("common", { keyPrefix: "RoomsList" });
+
   const [page, setPage] = useState(0);
   const take = 100;
 
@@ -41,17 +54,36 @@ export const RoomsList = (): ReactElement => {
   }
 
   return (
-    <VStack>
+    <VStack w="full">
       {members.map((member) => (
-        <Link href={paths.room(member.room.id)} key={member.room.id}>
-          {member.room.name}
-        </Link>
+        <LinkBox
+          as="article"
+          backgroundColor="white"
+          key={member.room.id}
+          p="5"
+          rounded="md"
+          w="full"
+        >
+          <HStack>
+            <Heading my="2" size="md">
+              <Link href={paths.room(member.room.id)} passHref>
+                <LinkOverlay>{member.room.name}</LinkOverlay>
+              </Link>
+            </Heading>
+            <Box as="time" dateTime={member.createdAt.toISOString()}>
+              {new Intl.DateTimeFormat(i18n.language).format(member.createdAt)}
+            </Box>
+          </HStack>
+          <Text>{member.room.description}</Text>
+        </LinkBox>
       ))}
-      <Pagination
-        current={page}
-        maxPage={Math.ceil(maxSize / take)}
-        onChange={setPage}
-      />
+      <Center backgroundColor="white" padding={2} w="full">
+        <Pagination
+          current={page}
+          maxPage={Math.ceil(maxSize / take)}
+          onChange={setPage}
+        />
+      </Center>
     </VStack>
   );
 };

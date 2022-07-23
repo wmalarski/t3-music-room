@@ -59,28 +59,6 @@ export const messagesRouter = t.router({
         },
       });
     }),
-  selectMessagesActions: roomMemberProcedure
-    .input(
-      z.object({
-        roomId: z.string(),
-      })
-    )
-    .query(async ({ ctx, input }) => {
-      const result = await ctx.prisma.action.aggregate({
-        _count: {
-          likeAt: true,
-          messageId: true,
-          dislikeAt: true,
-        },
-        where: {
-          message: {
-            roomId: input.roomId,
-          },
-        },
-      });
-
-      return result;
-    }),
   createMessage: roomMemberProcedure
     .input(
       z.object({
