@@ -131,4 +131,63 @@ export const messagesRouter = t.router({
         },
       });
     }),
+  reactToMessage: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+        reaction: z.union([z.literal("like"), z.literal("dislike")]),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const message = await ctx.prisma.message.findFirstOrThrow({
+        where: {
+          id: input.id,
+        },
+        include: {
+          actions: {
+            take: 1,
+            where: {
+              userId: ctx.session.user.id,
+            },
+          },
+        },
+      });
+
+      await ctx.prisma.member.findFirstOrThrow({
+        where: {
+          roomId: message.roomId,
+          userId: ctx.session.user.id,
+        },
+      });
+
+      const actionId = message.actions[0]?.id;
+
+      const reactions =
+        input.reaction === "like"
+          ? {
+              dislikeAt: null,
+              likeAt: new Date(),
+            }
+          : {
+              dislikeAt: new Date(),
+              likeAt: null,
+            };
+
+      if (actionId) {
+        return ctx.prisma.action.update({
+          data: reactions,
+          where: {
+            id: actionId,
+          },
+        });
+      }
+
+      return ctx.prisma.action.create({
+        data: {
+          userId: ctx.session.user.id,
+          messageId: message.id,
+          ...reactions,
+        },
+      });
+    }),
 });

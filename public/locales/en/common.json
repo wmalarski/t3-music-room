@@ -119,5 +119,10 @@
   },
   "MessagePlayer": {
     "title": "Message Player"
+  },
+  "MessageActions": {
+    "updateError": "Update Error",
+    "like": "Like",
+    "dislike": "Dislike"
   }
 }

@@ -3,6 +3,7 @@ import { ResultMessage } from "@components/ResultMessage/ResultMessage";
 import { Room } from "@prisma/client";
 import { trpc } from "@utils/trpc";
 import { ReactElement } from "react";
+import { MessageActions } from "./MessageActions/MessageActions";
 import { MessagePlayer } from "./MessagePlayer/MessagePlayer";
 
 type Props = {
@@ -29,6 +30,8 @@ export const CurrentMessage = ({ room }: Props): ReactElement => {
   return (
     <VStack>
       <MessagePlayer message={query.data} />
+      <MessageActions message={query.data} />
+      <pre>{JSON.stringify(query.data, null, 2)}</pre>
     </VStack>
   );
 };
